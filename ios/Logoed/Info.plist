@@ -5,6 +5,10 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>logoedapp</string>
+			</array>
 			<key>CFBundleURLName</key>
 			<string>logoedapp</string>
 		</dict>

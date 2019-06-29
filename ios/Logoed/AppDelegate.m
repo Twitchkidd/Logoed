@@ -15,10 +15,10 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+  options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
 {
   return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
+                      options:options];
 }
 
 // Only if your app is using [Universal Links](https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html).

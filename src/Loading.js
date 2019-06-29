@@ -25,7 +25,7 @@ export class Loading extends Component {
     const route = url.replace(/.*?:\/\//g, "");
     const id = route.match(/\/([^\/]+)\/?$/)[1];
     const routeName = route.split("/")[0];
-    if (routeName === "Welcome") {
+    if (routeName === "people") {
       navigate("Welcome", { id, name: "Chris" });
     }
   };

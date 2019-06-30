@@ -7,7 +7,7 @@ export class Loading extends Component {
   };
   componentDidMount() {
     if (Platform.OS === "android") {
-      Linking.getInitialUrl().then(url => {
+      Linking.getInitialURL().then(url => {
         this.navigate(url);
       });
     } else {
@@ -25,7 +25,7 @@ export class Loading extends Component {
     const route = url.replace(/.*?:\/\//g, "");
     const id = route.match(/\/([^\/]+)\/?$/)[1];
     const routeName = route.split("/")[0];
-    if (routeName === "people") {
+    if (routeName === "welcome") {
       navigate("Welcome", { id, name: "Chris" });
     }
   };

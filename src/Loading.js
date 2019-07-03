@@ -32,7 +32,7 @@ export class Loading extends Component {
     setTimeout(() => this.navigate(event.url), 3000);
   };
   checkMockServer = business => {
-    businesses = ["Burgerology", "Jonathans", "Leilu"];
+    const businesses = ["Burgerology", "Jonathans", "Leilu"];
     if (businesses.includes(business)) {
       return business;
     } else {

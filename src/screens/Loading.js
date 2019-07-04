@@ -5,7 +5,8 @@ import {
   Button,
   Platform,
   Linking,
-  ActivityIndicator
+  ActivityIndicator,
+  StyleSheet
 } from "react-native";
 
 export class Loading extends Component {
@@ -23,6 +24,7 @@ export class Loading extends Component {
     } else {
       Linking.addEventListener("url", this.handleOpenURL);
     }
+    // TODO How do we navigate to a useful screen if it isn't opened by url?
   }
   componentWillUnmount() {
     Linking.removeEventListener("url", this.handleOpenURL);
@@ -58,7 +60,7 @@ export class Loading extends Component {
   };
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Welcome to Logoed!</Text>
         <ActivityIndicator
           size='large'
@@ -72,5 +74,13 @@ export class Loading extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});
 
 export default Loading;

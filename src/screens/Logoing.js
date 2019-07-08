@@ -28,15 +28,10 @@ export default class Logoing extends Component {
             buttonPositive: "Ok",
             buttonNegative: "Cancel"
           }}
-          androidRecordAudioPermissionOptions={{
-            title: "Permission to use audio recording",
-            message: "We need your permission to use your audio",
-            buttonPositive: "Ok",
-            buttonNegative: "Cancel"
-          }}
           onGoogleVisionBarcodesDetected={({ barcodes }) => {
             console.log(barcodes);
           }}
+          captureAudio={false}
         />
         <View
           style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}>
@@ -70,3 +65,13 @@ const styles = StyleSheet.create({
     margin: 20
   }
 });
+
+/*
+
+          androidRecordAudioPermissionOptions={{
+            title: "Permission to use audio recording",
+            message: "We need your permission to use your audio",
+            buttonPositive: "Ok",
+            buttonNegative: "Cancel"
+          }}
+          */

@@ -7,3 +7,4 @@ export const veryYellow = "#FFFF00";
 export const veryRed = "#FF0000";
 export const totallyWhite = "#FFFFFF";
 export const maroon = "#8E293E";
+export const eigengrau = "#16161d";

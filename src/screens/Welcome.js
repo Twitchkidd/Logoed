@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, Image, StyleSheet, Button } from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { lightOrange, darkOrange, blue } from "../utilities";
+import { P, H2, Button } from "../components";
 
 const businesses = {
   Burgerology: {
@@ -40,20 +41,20 @@ export default class Welcome extends Component {
           style={styles.logoedLogo}
           source={require("../assets/logo-1x.png")}
         />
-        <Text style={styles.text}>In partnership with:</Text>
+        <H2 light>In partnership with:</H2>
         <Image
           resizeMode='contain'
           style={styles.image}
           source={businesses[id].logo}
         />
-        <Text style={styles.text}>
+        <H2 light>{businesses[id].name}</H2>
+        <P light>
           Snap a photo for your Instragram and put the {businesses[id].name}{" "}
           logo with on it to enter to win a $50 gift card!
-        </Text>
+        </P>
         <Button
           onPress={this.onPressButton}
           title='Snap photo!'
-          color={blue}
           accessibilityLabel='This initiates a request for camera permissions and advances to the next screen.'
         />
       </LinearGradient>
@@ -66,9 +67,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
     alignItems: "center"
-  },
-  text: {
-    fontSize: 22
   },
   image: {
     width: 200,

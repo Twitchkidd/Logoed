@@ -13,8 +13,8 @@ export const H2 = styled.Text`
   ${serif}
   color: ${props => (props.light ? mostlyWhite : eigengrau)};
   font-size: 24;
-  line-height: 16;
 `;
+//line-height: 16;
 
 export const H3 = styled.Text`
   ${serif}
@@ -34,5 +34,6 @@ export const P = styled.Text`
   ${sans}
   color: ${props => (props.light ? mostlyWhite : eigengrau)};
   font-size: 14;
-  line-height: 18;
+  text-align: center;
 `;
+//line-height: 18;

@@ -7,17 +7,17 @@ import { P, H2, Button } from "../components";
 const businesses = {
   Burgerology: {
     name: "Burgerology",
-    logo: require("../assets/burgerology-logo.jpg"),
+    logo: require("../logos/burgerology-logo.jpg"),
     handle: "@burgerologyny"
   },
   Jonathans: {
     name: "Jonathans",
-    logo: require("../assets/jonathans-logo.png"),
+    logo: require("../logos/jonathans-logo.png"),
     handle: "@jonathansrestaurantli"
   },
   Leilu: {
     name: "Leilu",
-    logo: require("../assets/leilu-logo.png"),
+    logo: require("../logos/leilu-logo.png"),
     handle: "@leiluhuntington"
   }
 };
@@ -39,7 +39,7 @@ export default class Welcome extends Component {
         style={styles.container}>
         <Image
           style={styles.logoedLogo}
-          source={require("../assets/logo-1x.png")}
+          source={require("../logos/logo-1x.png")}
         />
         <H2 light>In partnership with:</H2>
         <Image
@@ -69,13 +69,12 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   image: {
-    width: 200,
-    height: 200
+    width: 160,
+    height: 160
   },
   logoedLogo: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
+    height: "10%",
+    marginTop: 14,
     resizeMode: "contain"
   }
 });

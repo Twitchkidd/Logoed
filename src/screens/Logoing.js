@@ -1,8 +1,14 @@
-import React, { Component, createRef } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { PureComponent, createRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions
+} from "react-native";
 import { RNCamera } from "react-native-camera";
 
-export default class Logoing extends Component {
+export default class Logoing extends PureComponent {
   constructor(props) {
     super(props);
     this.camera = createRef();
@@ -15,6 +21,7 @@ export default class Logoing extends Component {
     }
   };
   render() {
+    console.log(Dimensions.get("window").width);
     return (
       <View style={styles.container}>
         <RNCamera
@@ -35,7 +42,9 @@ export default class Logoing extends Component {
         />
         <View
           style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}>
-          <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
+          <TouchableOpacity
+            onPress={this.takePicture.bind(this)}
+            style={styles.capture}>
             <Text style={{ fontSize: 14 }}> SNAP </Text>
           </TouchableOpacity>
         </View>
@@ -51,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black"
   },
   preview: {
-    flex: 1,
+    height: 360,
     justifyContent: "flex-end",
     alignItems: "center"
   },

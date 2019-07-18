@@ -1,7 +1,7 @@
 export const serif = `
-  font-family: "Bree Serif", serif;
+  font-family: "BreeSerif-Regular";
 `;
 
 export const sans = `
-  font-family: "Open Sans", sans-serif;
+  font-family: "OpenSans-Regular";
 `;

@@ -8,20 +8,29 @@ import {
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 
+const PendingView = () => (
+  <View
+    style={{
+      flex: 1,
+      backgroundColor: "lightgreen",
+      justifyContent: "center",
+      alignItems: "center"
+    }}>
+    <Text>Waiting</Text>
+  </View>
+);
+
 export default class Logoing extends PureComponent {
   constructor(props) {
     super(props);
     this.camera = createRef();
   }
-  takePicture = async () => {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-      console.log(data.uri);
-    }
+  takePicture = async function(camera) {
+    const options = { quality: 0.5, base64: true };
+    const data = await camera.takePictureAsync(options);
+    console.log(data.uri);
   };
   render() {
-    console.log(Dimensions.get("window").width);
     return (
       <View style={styles.container}>
         <RNCamera
@@ -38,16 +47,27 @@ export default class Logoing extends PureComponent {
           onGoogleVisionBarcodesDetected={({ barcodes }) => {
             console.log(barcodes);
           }}
-          captureAudio={false}
-        />
-        <View
-          style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}>
-          <TouchableOpacity
-            onPress={this.takePicture.bind(this)}
-            style={styles.capture}>
-            <Text style={{ fontSize: 14 }}> SNAP </Text>
-          </TouchableOpacity>
-        </View>
+          captureAudio={false}>
+          {({ camera, status }) => {
+            if (status !== "READY") {
+              return <PendingView />;
+            }
+            return (
+              <View
+                style={{
+                  flex: 0,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}>
+                <TouchableOpacity
+                  onPress={() => this.takePicture(camera)}
+                  style={styles.capture}>
+                  <Text style={{ fontSize: 14 }}> SNAP </Text>
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+        </RNCamera>
       </View>
     );
   }

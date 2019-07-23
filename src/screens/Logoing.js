@@ -10,7 +10,7 @@ import {
 import styled from "styled-components/native";
 import { RNCamera } from "react-native-camera";
 import RNFS from "react-native-fs";
-import { Button } from "../components";
+import { Button, Draggable } from "../components";
 import { eigengrau, lightOrange, darkOrange, mostlyWhite } from "../utilities";
 
 const businesses = {
@@ -65,10 +65,13 @@ export default class Logoing extends PureComponent {
   constructor(props) {
     super(props);
     this.camera = createRef();
+    this.logo = createRef();
   }
   state = {
     snapped: false,
-    photo: null
+    photo: null,
+    x: 40,
+    y: 80
   };
   toggleSnapped = () => {
     this.setState({ snapped: !this.state.snapped });
@@ -79,6 +82,12 @@ export default class Logoing extends PureComponent {
     console.log(data);
     console.log(data.uri);
     this.setState({ snapped: true, photo: data.uri });
+  };
+  setXY = (e, gestureState) => {
+    this.setState({
+      x: this.state.x + Math.round(gestureState.dx),
+      y: this.state.y + Math.round(gestureState.dy)
+    });
   };
   /*
   componentDidMount() {
@@ -159,9 +168,16 @@ export default class Logoing extends PureComponent {
                     }}>
                     <Shutter onPress={() => this.takePicture(camera)} />
                   </View>
-                  <Image
-                    source={businesses[id].logo}
-                    style={{ width: width / 3, height: width / 3 }}
+                  <Draggable
+                    renderShape='image'
+                    imageSource={businesses[id].logo}
+                    renderSize={width / 3}
+                    ref={this.logo}
+                    pressDragRelease={(e, gestureState) =>
+                      this.setXY(e, gestureState)
+                    }
+                    x={this.state.x}
+                    y={this.state.y}
                   />
                 </Fragment>
               );

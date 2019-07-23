@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  Button,
   Platform,
   Linking,
   ActivityIndicator,
   StyleSheet
 } from "react-native";
+import { Button } from "../components";
 
 export class Loading extends Component {
   static navigationOptions = {
@@ -59,6 +59,10 @@ export class Loading extends Component {
       }
     }
   };
+  quickButtonGo = () => {
+    const url = "logoedapp://App/Leilu";
+    Linking.openURL(url).catch(err => console.error("An error occurred", err));
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -68,6 +72,7 @@ export class Loading extends Component {
           color='#8E293E'
           animating={this.state.loading}
         />
+        <Button onPress={this.quickButtonGo} title='Go!' />
         {this.state.errorMessage ? (
           <Text>{this.state.errorMessage}</Text>
         ) : null}

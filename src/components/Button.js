@@ -11,10 +11,15 @@ import { blue, mediumGray } from "../utilities";
 // props.wide ? 8 : Dimensions.get("window").height / 10};
 const StyledLinearGradient = styled(LinearGradient)`
   width: 350;
+  height: 42;
   margin-left: 20;
   margin-right: 20;
   margin-top: 20;
   margin-bottom: 20;
+  flex: 0.3;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 export const Button = ({ title, onPress }) => {

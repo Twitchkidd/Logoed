@@ -6,7 +6,9 @@ import {
   View,
   Dimensions
 } from "react-native";
+import styled from "styled-components/native";
 import { RNCamera } from "react-native-camera";
+import { eigengrau, lightOrange } from "../utilities";
 
 const PendingView = () => (
   <View
@@ -20,7 +22,16 @@ const PendingView = () => (
   </View>
 );
 
+const StyledRNCamera = styled(RNCamera)`
+  height: ${props => props.screenWidth};
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 export default class Logoing extends PureComponent {
+  static navigationOptions = {
+    header: null
+  };
   constructor(props) {
     super(props);
     this.camera = createRef();
@@ -31,11 +42,12 @@ export default class Logoing extends PureComponent {
     console.log(data.uri);
   };
   render() {
+    const { width } = Dimensions.get("window");
     return (
       <View style={styles.container}>
-        <RNCamera
+        <StyledRNCamera
           ref={this.camera}
-          style={styles.preview}
+          screenWidth={width}
           type={RNCamera.Constants.Type.back}
           flashMode={RNCamera.Constants.FlashMode.on}
           androidCameraPermissionOptions={{
@@ -67,7 +79,8 @@ export default class Logoing extends PureComponent {
               </View>
             );
           }}
-        </RNCamera>
+        </StyledRNCamera>
+        <View style={styles.actionBar} />
       </View>
     );
   }
@@ -77,7 +90,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "black"
+    backgroundColor: eigengrau
   },
   preview: {
     height: 360,
@@ -92,6 +105,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignSelf: "center",
     margin: 20
+  },
+  actionBar: {
+    flex: 1,
+    backgroundColor: lightOrange
   }
 });
 

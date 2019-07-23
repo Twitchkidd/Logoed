@@ -31,7 +31,7 @@ export class Loading extends Component {
   }
   handleOpenURL = event => {
     this.setState({ loading: true });
-    setTimeout(() => this.navigate(event.url), 3000);
+    setTimeout(() => this.navigate(event.url), 200);
   };
   checkMockServer = business => {
     const businesses = ["Burgerology", "Jonathans", "Leilu"];
@@ -41,6 +41,7 @@ export class Loading extends Component {
       return "Error! Can't find business in Logoed database!";
     }
   };
+  // ! Please give the local navigate(url) it's own name.
   navigate = url => {
     this.setState({ loading: false });
     const { navigate } = this.props.navigation;
@@ -61,7 +62,7 @@ export class Loading extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Welcome to Logoed!</Text>
+        {this.state.loading ? null : <Text>Welcome to Logoed!</Text>}
         <ActivityIndicator
           size='large'
           color='#8E293E'

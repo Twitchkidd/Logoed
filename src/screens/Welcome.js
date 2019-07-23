@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { lightOrange, darkOrange, blue } from "../utilities";
 import { P, H2, Button } from "../components";
@@ -22,12 +22,15 @@ const businesses = {
   }
 };
 
+// TODO Standardize using styled components.
+// TODO Every time you see a style={styles.thing}
+// TODO is a missed chance at <Thing />
+
 export default class Welcome extends Component {
   static navigationOptions = {
     title: "Welcome Screen"
   };
   onPressButton = () => {
-    console.log("Boop!");
     const { id } = this.props.navigation.state.params;
     this.props.navigation.navigate("Logoing", { id });
   };
@@ -65,7 +68,7 @@ export default class Welcome extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center"
   },
   image: {

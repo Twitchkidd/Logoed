@@ -1,15 +1,35 @@
-import React, { PureComponent, createRef } from "react";
+import React, { PureComponent, createRef, Fragment } from "react";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Dimensions
+  Dimensions,
+  Image
 } from "react-native";
 import styled from "styled-components/native";
 import { RNCamera } from "react-native-camera";
 import RNFS from "react-native-fs";
-import { eigengrau, lightOrange } from "../utilities";
+import { Button } from "../components";
+import { eigengrau, lightOrange, darkOrange, mostlyWhite } from "../utilities";
+
+const businesses = {
+  Burgerology: {
+    name: "Burgerology",
+    logo: require("../logos/burgerology-logo.jpg"),
+    handle: "@burgerologyny"
+  },
+  Jonathans: {
+    name: "Jonathans",
+    logo: require("../logos/jonathans-logo.png"),
+    handle: "@jonathansrestaurantli"
+  },
+  Leilu: {
+    name: "Leilu",
+    logo: require("../logos/leilu-logo.png"),
+    handle: "@leiluhuntington"
+  }
+};
 
 const PendingView = () => (
   <View
@@ -29,6 +49,15 @@ const StyledRNCamera = styled(RNCamera)`
   align-items: center;
 `;
 
+const Shutter = styled(TouchableOpacity)`
+  height: 80;
+  width: 80;
+  background-color: #ccc;
+  border-radius: 40;
+  border-color: #777;
+  border-width: 2;
+`;
+
 export default class Logoing extends PureComponent {
   static navigationOptions = {
     header: null
@@ -37,14 +66,24 @@ export default class Logoing extends PureComponent {
     super(props);
     this.camera = createRef();
   }
+  state = {
+    snapped: false,
+    photo: null
+  };
+  toggleSnapped = () => {
+    this.setState({ snapped: !this.state.snapped });
+  };
   takePicture = async function(camera) {
     const options = { quality: 0.5, base64: true };
     const data = await camera.takePictureAsync(options);
+    console.log(data);
     console.log(data.uri);
+    this.setState({ snapped: true, photo: data.uri });
   };
+  /*
   componentDidMount() {
     // get a list of files and directories in the main bundle
-    RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+    RNFS.readDir(RNFS.LibraryDirectoryPath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
       .then(result => {
         console.log("GOT RESULT", result);
 
@@ -66,46 +105,70 @@ export default class Logoing extends PureComponent {
         console.log(err.message, err.code);
       });
   }
+  */
   render() {
     const { width } = Dimensions.get("window");
+    const { id } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
-        <StyledRNCamera
-          ref={this.camera}
-          screenWidth={width}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.on}
-          androidCameraPermissionOptions={{
-            title: "Permission to use camera",
-            message: "We need your permission to use your camera",
-            buttonPositive: "Ok",
-            buttonNegative: "Cancel"
-          }}
-          onGoogleVisionBarcodesDetected={({ barcodes }) => {
-            console.log(barcodes);
-          }}
-          captureAudio={false}>
-          {({ camera, status }) => {
-            if (status !== "READY") {
-              return <PendingView />;
-            }
-            return (
-              <View
-                style={{
-                  flex: 0,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}>
-                <TouchableOpacity
-                  onPress={() => this.takePicture(camera)}
-                  style={styles.capture}>
-                  <Text style={{ fontSize: 14 }}> SNAP </Text>
-                </TouchableOpacity>
-              </View>
-            );
-          }}
-        </StyledRNCamera>
-        <View style={styles.actionBar} />
+        {this.state.snapped ? (
+          <View
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: `${darkOrange}`,
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+            <Image
+              source={{ uri: `${this.state.photo}`, width: 300, height: 300 }}
+            />
+            <Button
+              onPress={() => this.toggleSnapped()}
+              title='Back to camera!'
+            />
+          </View>
+        ) : (
+          <StyledRNCamera
+            ref={this.camera}
+            screenWidth={width}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.off}
+            androidCameraPermissionOptions={{
+              title: "Permission to use camera",
+              message: "We need your permission to use your camera",
+              buttonPositive: "Ok",
+              buttonNegative: "Cancel"
+            }}
+            onGoogleVisionBarcodesDetected={({ barcodes }) => {
+              console.log(barcodes);
+            }}
+            captureAudio={false}>
+            {({ camera, status }) => {
+              if (status !== "READY") {
+                return <PendingView />;
+              }
+              return (
+                <Fragment>
+                  <View
+                    style={{
+                      position: "absolute",
+                      top: 570,
+                      zIndex: 200
+                    }}>
+                    <Shutter onPress={() => this.takePicture(camera)} />
+                  </View>
+                  <Image
+                    source={businesses[id].logo}
+                    style={{ width: width / 3, height: width / 3 }}
+                  />
+                </Fragment>
+              );
+            }}
+          </StyledRNCamera>
+        )}
+        {/*<View style={styles.actionBar} />*/}
       </View>
     );
   }
@@ -133,7 +196,8 @@ const styles = StyleSheet.create({
   },
   actionBar: {
     flex: 1,
-    backgroundColor: lightOrange
+    backgroundColor: lightOrange,
+    zIndex: 1
   }
 });
 

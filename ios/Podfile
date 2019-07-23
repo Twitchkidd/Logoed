@@ -32,6 +32,8 @@ target 'Logoed' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'LogoedTests' do
     inherit! :search_paths
     # Pods for testing

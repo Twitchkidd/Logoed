@@ -97,6 +97,8 @@ PODS:
     - React
   - RNScreens (1.0.0-alpha.22):
     - React
+  - RNViewShot (3.0.0):
+    - React
   - yoga (0.60.0.React)
 
 DEPENDENCIES:
@@ -126,6 +128,7 @@ DEPENDENCIES:
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `/Users/gareth/Code/logoed/Logoed/node_modules/react-native-gesture-handler`)
   - RNScreens (from `/Users/gareth/Code/logoed/Logoed/node_modules/react-native-screens`)
+  - RNViewShot (from `../node_modules/react-native-view-shot`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -185,6 +188,8 @@ EXTERNAL SOURCES:
     :path: "/Users/gareth/Code/logoed/Logoed/node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "/Users/gareth/Code/logoed/Logoed/node_modules/react-native-screens"
+  RNViewShot:
+    :path: "../node_modules/react-native-view-shot"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -216,8 +221,9 @@ SPEC CHECKSUMS:
   RNFS: c9bbde46b0d59619f8e7b735991c60e0f73d22c1
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNScreens: 720a9e6968beb73e8196239801e887d8401f86ed
+  RNViewShot: f99b33fa0154ad9b8da7339523ce411f7f1452cc
   yoga: 616fde658be980aa60a2158835170f3f9c2d04b4
 
-PODFILE CHECKSUM: f8ceb04e499b40a11e6a22b2a76af7091732488e
+PODFILE CHECKSUM: bd03d7853998296f2ccf42c20d73b58dfdc466bc
 
 COCOAPODS: 1.7.2

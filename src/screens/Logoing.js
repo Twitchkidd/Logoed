@@ -9,7 +9,9 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import { RNCamera } from "react-native-camera";
+// * Do I need this? :
 import RNFS from "react-native-fs";
+import ViewShot from "react-native-view-shot";
 import { Button, Draggable } from "../components";
 import { eigengrau, lightOrange, darkOrange, mostlyWhite } from "../utilities";
 
@@ -66,6 +68,7 @@ export default class Logoing extends PureComponent {
     super(props);
     this.camera = createRef();
     this.logo = createRef();
+    this.viewShot = createRef();
   }
   state = {
     snapped: false,
@@ -82,6 +85,17 @@ export default class Logoing extends PureComponent {
     console.log(data);
     console.log(data.uri);
     this.setState({ snapped: true, photo: data.uri });
+  };
+  takeSnapShot = () => {
+    console.log(this.viewShot.current);
+    this.viewShot.current
+      .capture()
+      .then(uri => {
+        this.setState({ snapped: true, photo: uri });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   setXY = (e, gestureState) => {
     this.setState({
@@ -139,50 +153,53 @@ export default class Logoing extends PureComponent {
             />
           </View>
         ) : (
-          <StyledRNCamera
-            ref={this.camera}
-            screenWidth={width}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.off}
-            androidCameraPermissionOptions={{
-              title: "Permission to use camera",
-              message: "We need your permission to use your camera",
-              buttonPositive: "Ok",
-              buttonNegative: "Cancel"
-            }}
-            onGoogleVisionBarcodesDetected={({ barcodes }) => {
-              console.log(barcodes);
-            }}
-            captureAudio={false}>
-            {({ camera, status }) => {
-              if (status !== "READY") {
-                return <PendingView />;
-              }
-              return (
-                <Fragment>
-                  <View
-                    style={{
-                      position: "absolute",
-                      top: 570,
-                      zIndex: 200
-                    }}>
-                    <Shutter onPress={() => this.takePicture(camera)} />
-                  </View>
-                  <Draggable
-                    renderShape='image'
-                    imageSource={businesses[id].logo}
-                    renderSize={width / 3}
-                    ref={this.logo}
-                    pressDragRelease={(e, gestureState) =>
-                      this.setXY(e, gestureState)
-                    }
-                    x={this.state.x}
-                    y={this.state.y}
-                  />
-                </Fragment>
-              );
-            }}
-          </StyledRNCamera>
+          <ViewShot ref={this.viewShot}>
+            <StyledRNCamera
+              ref={this.camera}
+              screenWidth={width}
+              type={RNCamera.Constants.Type.back}
+              flashMode={RNCamera.Constants.FlashMode.off}
+              androidCameraPermissionOptions={{
+                title: "Permission to use camera",
+                message: "We need your permission to use your camera",
+                buttonPositive: "Ok",
+                buttonNegative: "Cancel"
+              }}
+              onGoogleVisionBarcodesDetected={({ barcodes }) => {
+                console.log(barcodes);
+              }}
+              captureAudio={false}>
+              {({ camera, status }) => {
+                if (status !== "READY") {
+                  return <PendingView />;
+                }
+                return (
+                  <Fragment>
+                    <View
+                      style={{
+                        position: "absolute",
+                        top: 570,
+                        zIndex: 200
+                      }}>
+                      {/*<Shutter onPress={() => this.takePicture(camera)} />*/}
+                      <Shutter onPress={() => this.takeSnapShot()} />
+                    </View>
+                    <Draggable
+                      renderShape='image'
+                      imageSource={businesses[id].logo}
+                      renderSize={width / 3}
+                      ref={this.logo}
+                      pressDragRelease={(e, gestureState) =>
+                        this.setXY(e, gestureState)
+                      }
+                      x={this.state.x}
+                      y={this.state.y}
+                    />
+                  </Fragment>
+                );
+              }}
+            </StyledRNCamera>
+          </ViewShot>
         )}
         {/*<View style={styles.actionBar} />*/}
       </View>
@@ -195,11 +212,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: eigengrau
-  },
-  preview: {
-    height: 360,
-    justifyContent: "flex-end",
-    alignItems: "center"
   },
   capture: {
     flex: 0,

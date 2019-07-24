@@ -22,10 +22,6 @@ const businesses = {
   }
 };
 
-// TODO Standardize using styled components.
-// TODO Every time you see a style={styles.thing}
-// TODO is a missed chance at <Thing />
-
 export default class Welcome extends Component {
   static navigationOptions = {
     title: "Welcome Screen"

@@ -5160,7 +5160,7 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5255,13 +5255,6 @@ react-lifecycles-compat@^3.0.4:
   dependencies:
     prop-types "^15.6.2"
 
-react-native-draggable@^1.0.15:
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/react-native-draggable/-/react-native-draggable-1.0.15.tgz#a5eb47ff7ac4a96d87b1c7496c84110ea27b3711"
-  integrity sha512-7nf8uU845WV5iyAlPaLiLsBrhZIIRS8uecPexvUVQi2pJzRqF947G4HfCEmTjRnYPZDIdu7TVKfCaB/mHxhjRw==
-  dependencies:
-    prop-types "^15.6.0"
-
 react-native-fs@^2.13.3:
   version "2.13.3"
   resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.13.3.tgz#a422f0ecd8a093a7e99d8d51ff51440e090a18a8"
@@ -5302,6 +5295,11 @@ react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   integrity sha512-Bke8KkDcDhvB/z0AS7MnQKMD2p6Kwfc1rSKlMOvg9CC5CnClQ2QEnhPSbwegKDYhUkBI92iH/BYy7hNSm5kbUQ==
   dependencies:
     prop-types "^15.6.1"
+
+react-native-view-shot@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.0.0.tgz#6bc4098287d23a3eec300c55c145d69489a1155b"
+  integrity sha512-Zz7zhVKTR7ENXFglFSopiXkLMseQBPHZ6jj2P0mTpCGsR3FyBdMwL6e3Js+cr7V8LHcgAhRVchplCs4qiTeBeg==
 
 react-native@0.60.0:
   version "0.60.0"

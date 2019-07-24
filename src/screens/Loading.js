@@ -11,7 +11,7 @@ import { Button } from "../components";
 
 export class Loading extends Component {
   static navigationOptions = {
-    title: "Loading Screen"
+    header: null
   };
   state = {
     loading: false
@@ -41,7 +41,7 @@ export class Loading extends Component {
       return "Error! Can't find business in Logoed database!";
     }
   };
-  // ! Please give the local navigate(url) it's own name.
+  // TODO Please give the local navigate(url) it's own name.
   navigate = url => {
     this.setState({ loading: false });
     const { navigate } = this.props.navigation;

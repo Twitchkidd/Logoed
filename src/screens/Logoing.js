@@ -1,18 +1,16 @@
-import React, { PureComponent, createRef, Fragment } from "react";
+import React, { Component, createRef, Fragment } from "react";
 import {
-  StyleSheet,
-  Text,
   TouchableOpacity,
   View,
   Dimensions,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import styled from "styled-components/native";
 import { RNCamera } from "react-native-camera";
-// * Do I need this? :
-import RNFS from "react-native-fs";
 import ViewShot from "react-native-view-shot";
-import { Button, Draggable } from "../components";
+import { Button, P } from "../components";
+import Draggable from "react-native-draggable";
 import { eigengrau, lightOrange, darkOrange, mostlyWhite } from "../utilities";
 
 const businesses = {
@@ -33,128 +31,116 @@ const businesses = {
   }
 };
 
-const PendingView = () => (
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: "lightgreen",
-      justifyContent: "center",
-      alignItems: "center"
-    }}>
-    <Text>Waiting</Text>
-  </View>
-);
+const ScreenWrapper = styled(View)`
+  flex: 1;
+  flex-direction: column;
+  background-color: ${eigengrau};
+`;
 
-const StyledRNCamera = styled(RNCamera)`
-  height: ${props => props.screenWidth};
-  justify-content: flex-end;
+const CameraAndImageWrapper = styled(View)`
+  flex: 1;
+  width: ${props => props.screenWidth};
+  z-index: 1;
+`;
+//height: ${props => props.screenWidth};
+
+const PendingView = styled(View)`
+  flex: 1;
+  justify-content: center;
   align-items: center;
+`;
+// TODO remove gesture to navigate back from logoing screen.
+// TODO ... probably welcome too
+// // position: relative;
+const Camera = styled(RNCamera)`
+  width: ${props => props.screenWidth};
+  height: ${props => props.screenWidth};
 `;
 
 const Shutter = styled(TouchableOpacity)`
+  position: absolute;
+  top: 570;
+  z-index: 2;
   height: 80;
   width: 80;
-  background-color: #ccc;
   border-radius: 40;
+  background-color: #ccc;
   border-color: #777;
   border-width: 2;
 `;
 
-export default class Logoing extends PureComponent {
+const ActionBar = styled(View)`
+  flex: 1;
+  opacity: 0.5;
+  width: ${props => props.screenWidth};
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${lightOrange};
+  z-index: 0;
+`;
+
+export default class Logoing extends Component {
   static navigationOptions = {
     header: null
   };
   constructor(props) {
     super(props);
     this.camera = createRef();
-    this.logo = createRef();
     this.viewShot = createRef();
+    this.logo = createRef();
   }
   state = {
-    snapped: false,
-    photo: null,
+    pendingDraggedReady: true,
+    pendingSnapShot: true,
+    snapShot: null,
+    viewShot: null,
     x: 40,
     y: 80
   };
-  toggleSnapped = () => {
-    this.setState({ snapped: !this.state.snapped });
+  retake = () => {
+    this.setState({ pendingSnapShot: true });
   };
-  takePicture = async function(camera) {
-    const options = { quality: 0.5, base64: true };
+  takeSnapShot = async camera => {
+    const options = { quality: 1.0, base64: true };
     const data = await camera.takePictureAsync(options);
-    console.log(data);
-    console.log(data.uri);
-    this.setState({ snapped: true, photo: data.uri });
+    this.setState({ pendingSnapShot: false, snapShot: data.uri });
   };
-  takeSnapShot = () => {
-    console.log(this.viewShot.current);
+  takeViewShot = () => {
     this.viewShot.current
       .capture()
       .then(uri => {
-        this.setState({ snapped: true, photo: uri });
+        this.setState({ viewShot: uri });
       })
       .catch(err => {
         console.log(err);
       });
   };
   setXY = (e, gestureState) => {
+    const { x, y } = this.state;
     this.setState({
-      x: this.state.x + Math.round(gestureState.dx),
-      y: this.state.y + Math.round(gestureState.dy)
+      pendingDraggedReady: false,
+      x: x + Math.round(gestureState.dx),
+      y: y + Math.round(gestureState.dy)
     });
   };
-  /*
-  componentDidMount() {
-    // get a list of files and directories in the main bundle
-    RNFS.readDir(RNFS.LibraryDirectoryPath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-      .then(result => {
-        console.log("GOT RESULT", result);
-
-        // stat the first file
-        return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-      })
-      .then(statResult => {
-        if (statResult[0].isFile()) {
-          // if we have a file, read it
-          return RNFS.readFile(statResult[1], "utf8");
-        }
-        return "no file";
-      })
-      .then(contents => {
-        // log the file contents
-        console.log(contents);
-      })
-      .catch(err => {
-        console.log(err.message, err.code);
-      });
-  }
-  */
   render() {
     const { width } = Dimensions.get("window");
+    const {
+      pendingDraggedReady,
+      pendingSnapShot,
+      snapShot,
+      viewShot,
+      x,
+      y
+    } = this.state;
     const { id } = this.props.navigation.state.params;
+    console.log(this.state);
     return (
-      <View style={styles.container}>
-        {this.state.snapped ? (
-          <View
-            style={{
-              width: "100%",
-              height: "100%",
-              backgroundColor: `${darkOrange}`,
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-            <Image
-              source={{ uri: `${this.state.photo}`, width: 300, height: 300 }}
-            />
-            <Button
-              onPress={() => this.toggleSnapped()}
-              title='Back to camera!'
-            />
-          </View>
-        ) : (
-          <ViewShot ref={this.viewShot}>
-            <StyledRNCamera
+      <ScreenWrapper>
+        <CameraAndImageWrapper screenWidth={width}>
+          {pendingSnapShot ? (
+            <Camera
               ref={this.camera}
               screenWidth={width}
               type={RNCamera.Constants.Type.back}
@@ -171,70 +157,51 @@ export default class Logoing extends PureComponent {
               captureAudio={false}>
               {({ camera, status }) => {
                 if (status !== "READY") {
-                  return <PendingView />;
+                  return (
+                    <PendingView>
+                      <ActivityIndicator
+                        size='large'
+                        color='#8E293E'
+                        animating={true}
+                      />
+                    </PendingView>
+                  );
+                } else {
+                  return pendingDraggedReady ? null : (
+                    <Shutter onPress={() => this.takeSnapShot(camera)} />
+                  );
                 }
-                return (
-                  <Fragment>
-                    <View
-                      style={{
-                        position: "absolute",
-                        top: 570,
-                        zIndex: 200
-                      }}>
-                      {/*<Shutter onPress={() => this.takePicture(camera)} />*/}
-                      <Shutter onPress={() => this.takeSnapShot()} />
-                    </View>
-                    <Draggable
-                      renderShape='image'
-                      imageSource={businesses[id].logo}
-                      renderSize={width / 3}
-                      ref={this.logo}
-                      pressDragRelease={(e, gestureState) =>
-                        this.setXY(e, gestureState)
-                      }
-                      x={this.state.x}
-                      y={this.state.y}
-                    />
-                  </Fragment>
-                );
               }}
-            </StyledRNCamera>
-          </ViewShot>
-        )}
-        {/*<View style={styles.actionBar} />*/}
-      </View>
+            </Camera>
+          ) : (
+            <ViewShot ref={this.viewShot}>
+              <Image source={{ uri: `${snapShot}`, width: 300, height: 300 }} />
+            </ViewShot>
+          )}
+        </CameraAndImageWrapper>
+        <Draggable
+          ref={this.logo}
+          x={x}
+          y={y}
+          pressDragRelease={(e, gestureState) => this.setXY(e, gestureState)}
+          renderShape='image'
+          imageSource={businesses[id].logo}
+          renderSize={width / 3}
+        />
+        <ActionBar screenWidth={width}>
+          {pendingDraggedReady ? (
+            <P>Tap and drag to place logo!</P>
+          ) : pendingSnapShot ? null : (
+            <Fragment>
+              <Button onPress={() => this.retake()} title='Back to camera!' />
+              <Button
+                onPress={() => this.takeViewShot()}
+                title='Share to Instagram!'
+              />
+            </Fragment>
+          )}
+        </ActionBar>
+      </ScreenWrapper>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: eigengrau
-  },
-  capture: {
-    flex: 0,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    padding: 15,
-    paddingHorizontal: 20,
-    alignSelf: "center",
-    margin: 20
-  },
-  actionBar: {
-    flex: 1,
-    backgroundColor: lightOrange,
-    zIndex: 1
-  }
-});
-
-/*
-
-          androidRecordAudioPermissionOptions={{
-            title: "Permission to use audio recording",
-            message: "We need your permission to use your audio",
-            buttonPositive: "Ok",
-            buttonNegative: "Cancel"
-          }}
-          */

@@ -688,8 +688,8 @@
 				7F49D4D422DF9B420005E23B /* OpenSans-Light.ttf in Resources */,
 				7F49D4D822DF9B420005E23B /* OpenSans-BoldItalic.ttf in Resources */,
 				7F49D4D922DF9B420005E23B /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				7F49D4D522DF9B420005E23B /* OpenSans-ExtraBold.ttf in Resources */,
+				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,7 +723,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		046A321B1B20BD14916D7EA4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

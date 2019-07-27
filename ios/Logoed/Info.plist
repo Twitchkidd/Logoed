@@ -78,7 +78,9 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow camera use for the app to work!</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow camera roll access to use your own photos in Logoed!</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Please allow writing to the camera roll for the app to work!</string>
+	<string>Please allow camera roll use for the app to work!</string>
 </dict>
 </plist>

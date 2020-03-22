@@ -2,20 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>OpenSans-SemiBoldItalic.ttf</string>
-		<string>OpenSans-SemiBold.ttf</string>
-		<string>OpenSans-RegularItalic.ttf</string>
-		<string>OpenSans-Regular.ttf</string>
-		<string>OpenSans-LightItalic.ttf</string>
-		<string>OpenSans-Light.ttf</string>
-		<string>OpenSans-ExtraBoldItalic.ttf</string>
-		<string>OpenSans-ExtraBold.ttf</string>
-		<string>OpenSans-BoldItalic.ttf</string>
-		<string>OpenSans-Bold.ttf</string>
-		<string>BreeSerif-Regular.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -67,20 +53,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>logoedapp</string>
-			</array>
-		</dict>
-	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow camera use for the app to work!</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow camera roll access to use your own photos in Logoed!</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Please allow camera roll use for the app to work!</string>
 </dict>
 </plist>

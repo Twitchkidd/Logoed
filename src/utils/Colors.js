@@ -11,3 +11,5 @@ export const grayGray = '#C4C4C4';
 export const mediumGray = '#BBBBBB';
 export const crayGray = '#737373';
 export const eigengrau = '#16161d';
+export const veryYellow = '#FFFF00';
+export const veryRed = '#FF0000';

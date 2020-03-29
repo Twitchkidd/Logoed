@@ -18,6 +18,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* LogoedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* LogoedTests.m */; };
 		508F7D13F7433DB821D2C4A2 /* libPods-Logoed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20315A8E2BC6216F65888EFC /* libPods-Logoed.a */; };
 		625D4AEC30AF65A9935F2ECF /* libPods-Logoed-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A16FBB7CED532C5422C3932C /* libPods-Logoed-tvOS.a */; };
+		7F0BE1472430CC58000D77FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F0BE1462430CC58000D77FB /* GoogleService-Info.plist */; };
 		F28C783C21C0EC1CED3A98FE /* libPods-Logoed-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6DA3F27FCFB20AC2CA6AB69 /* libPods-Logoed-tvOSTests.a */; };
 		FC529B81AEA99640F1F7E059 /* libPods-LogoedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F74CAF311654981CDCDC68 /* libPods-LogoedTests.a */; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 		48C64704B1730A37B2CEA22E /* Pods-Logoed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Logoed.release.xcconfig"; path = "Target Support Files/Pods-Logoed/Pods-Logoed.release.xcconfig"; sourceTree = "<group>"; };
 		5D3CD4E5D909699ECFF27F45 /* Pods-Logoed-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Logoed-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Logoed-tvOSTests/Pods-Logoed-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		69871E94954361D591DCA4C7 /* Pods-Logoed-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Logoed-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Logoed-tvOS/Pods-Logoed-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		7F0BE1462430CC58000D77FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Logoed/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A16FBB7CED532C5422C3932C /* libPods-Logoed-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Logoed-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9DBB175CD545F85550FF767 /* Pods-Logoed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Logoed.debug.xcconfig"; path = "Target Support Files/Pods-Logoed/Pods-Logoed.debug.xcconfig"; sourceTree = "<group>"; };
 		ADE4246CE630CC02953013A2 /* Pods-LogoedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LogoedTests.debug.xcconfig"; path = "Target Support Files/Pods-LogoedTests/Pods-LogoedTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				7F0BE1462430CC58000D77FB /* GoogleService-Info.plist */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -341,6 +344,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				7F0BE1472430CC58000D77FB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -66,5 +66,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow Logoed to use the camera while the app is open. Thank you!</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Please allow Logoed to access the camera roll to save the Logoed image. Thank you!</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow Logoed to access the camera roll so you can select an image to be Logoed. Thank you!</string>
 </dict>
 </plist>

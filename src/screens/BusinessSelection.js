@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, FlatList, Text, View } from 'react-native';
+import { Button, Dimensions, FlatList, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { CenteringView, TextInput } from '../components';
 import { restaurants } from '../data';
@@ -37,7 +37,7 @@ export const BusinessSelection = ({ navigation }) => {
         />
       </View>
       <Button
-        onPress={() => navigation.push('codeScanner')}
+        onPress={() => navigation.push('CodeScanner')}
         title="Scan QR Code!"
       />
     </CenteringView>

@@ -1,5 +1,6 @@
 export * from './BusinessInfo';
 export * from './BusinessSelection';
+export * from './CodeScanner';
 export * from './Feedback';
 export * from './FindBusiness';
 export * from './Home';

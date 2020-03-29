@@ -9,6 +9,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import {
   BusinessInfo,
   BusinessSelection,
+  CodeScanner,
   Feedback,
   FindBusiness,
   Home,
@@ -62,6 +63,7 @@ const LogoingStackScreen = () => (
       name="BusinessSelection"
       component={BusinessSelection}
     />
+    <LogoingStack.Screen name="CodeScanner" component={CodeScanner} />
     <LogoingStack.Screen name="FindBusiness" component={FindBusiness} />
     <LogoingStack.Screen name="BusinessInfo" component={BusinessInfo} />
     <LogoingStack.Screen name="Logoing" component={Logoing} />

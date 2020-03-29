@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "717512377138",
+    "firebase_url": "https://logoed-af9fc.firebaseio.com",
+    "project_id": "logoed-af9fc",
+    "storage_bucket": "logoed-af9fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717512377138:android:48a0a69c47a8ab83974d2b",
+        "android_client_info": {
+          "package_name": "com.logoed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717512377138-jhdt2fq5dpksr450fbgjmeqjlrgq9kv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfqYjEMNdXCoVUiIYrMEPIohVYb77FZwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "717512377138-jhdt2fq5dpksr450fbgjmeqjlrgq9kv4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "717512377138-u39bcovhq8u6l0n8vorf4glhq8po6mcp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.logoed"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

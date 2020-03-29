@@ -1,12 +1,45 @@
 import React from 'react';
-import { FlatList, Text } from 'react-native';
-import { CenteringView } from '../components';
-import { retaurants } from '../data/restaurants';
+import { Dimensions, FlatList, Text, View } from 'react-native';
+import styled from 'styled-components/native';
+import { CenteringView, TextInput } from '../components';
+import { restaurants } from '../data';
 
-export const BusinessSelection = () => {
+const { width, height } = Dimensions.get('window');
+console.log(width);
+console.log(height);
+
+const ItemView = styled.View`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+`;
+
+const Business = ({ name }) => (
+  <ItemView>
+    <Text>{name}</Text>
+  </ItemView>
+);
+
+export const BusinessSelection = ({ navigation }) => {
   return (
     <CenteringView>
-      <Text>BusinessSelection</Text>
+      <Text>Where are you Logoing from?</Text>
+      <Text>
+        Choose from the list or hit the button to scan a provided QR code.
+      </Text>
+      <TextInput></TextInput>
+      <View style={{ height: 400 }}>
+        <FlatList
+          data={restaurants}
+          renderItem={({ item }) => <Business name={item.name} />}
+          keyExtractor={item => item.name}
+        />
+      </View>
+      <Button
+        onPress={() => navigation.push('codeScanner')}
+        title="Scan QR Code!"
+      />
     </CenteringView>
   );
 };

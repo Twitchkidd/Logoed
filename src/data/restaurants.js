@@ -1,4 +1,4 @@
-export const restaurants = [
+export default [
   { name: 'Burgerology' },
   { name: 'Mundays' },
   { name: 'The Shed' },

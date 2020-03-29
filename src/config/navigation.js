@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProfileCreationContext } from '../contexts';
 import AsyncStorage from '@react-native-community/async-storage';
 import Auth0 from 'react-native-auth0';
@@ -57,7 +57,7 @@ const ProfileCreationStackScreen = () => (
 
 const LogoingStack = createStackNavigator();
 const LogoingStackScreen = () => (
-  <LogoingStack.Navigator>
+  <LogoingStack.Navigator headerMode="none">
     <LogoingStack.Screen
       name="BusinessSelection"
       component={BusinessSelection}
@@ -85,6 +85,7 @@ const RootStack = createStackNavigator();
 const RootStackScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const instagramHandle = useState(null);
   const auth0 = new Auth0({
     domain: 'twitchkidd.auth0.com',
     clientId: 'DUO3kbgsYfJihwAwpeQ3L5KeVngowCqc',
@@ -135,13 +136,15 @@ const RootStackScreen = () => {
         } catch (asyncStorageError) {
           console.error(asyncStorageError);
         }
-        getUserData(accessToken);
+        // getUserData(accessToken);
+        setIsLoading(false);
       } catch (authError) {
         console.error(authError);
       }
     };
     const getUserData = async accessToken => {
       try {
+        // This is where I need to implement my own DB call, the Auth0 Management API is seperate from the Authentication API
         const user = await auth0.auth.userInfo({ token: accessToken });
         console.log(user);
         setUser(user);
@@ -153,55 +156,60 @@ const RootStackScreen = () => {
     checkForStoredAccessToken();
   }, []);
   return (
-    <RootStack.Navigator
-      headerMode="none"
-      screenOptions={{ animationEnabled: false }}
-      mode="modal">
-      {isLoading ? (
-        <RootStack.Screen name="Loading" component={Loading} />
-      ) : user.instagramHandle ? (
-        <RootStack.Screen name="LogoingStack" component={LogoingStackScreen} />
-      ) : (
+    <ProfileCreationContext.Provider value={instagramHandle}>
+      <RootStack.Navigator
+        headerMode="none"
+        screenOptions={{ animationEnabled: false }}
+        mode="modal">
+        {isLoading ? (
+          <RootStack.Screen name="Loading" component={Loading} />
+        ) : instagramHandle ? (
+          <RootStack.Screen
+            name="LogoingStack"
+            component={LogoingStackScreen}
+          />
+        ) : (
+          <RootStack.Screen
+            name="ProfileCreationStack"
+            component={ProfileCreationStackScreen}
+          />
+        )}
+        <RootStack.Screen name="AppDrawer" component={AppDrawerScreen} />
         <RootStack.Screen
-          name="ProfileCreationStack"
-          component={ProfileCreationStackScreen}
+          name="Modal"
+          component={Modal}
+          options={{
+            animationEnabled: true,
+          }}
         />
-      )}
-      <RootStack.Screen name="AppDrawer" component={AppDrawerScreen} />
-      <RootStack.Screen
-        name="Modal"
-        component={Modal}
-        options={{
-          animationEnabled: true,
-        }}
-      />
-      <RootStack.Screen
-        name="Alert"
-        component={Modal}
-        options={{
-          animationEnabled: true,
-          cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.15)' },
-          cardOverLayEnabled: true,
-          cardStyleInterpolator: ({ current: { progress } }) => {
-            return {
-              cardStyle: {
-                opacity: progress.interpolate({
-                  inputRange: [0, 0.5, 0.9, 1],
-                  outputRange: [0, 0.25, 0.7, 1],
-                }),
-              },
-              overlayStyle: {
-                opacity: progress.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 0.5],
-                  extrapolate: 'clamp',
-                }),
-              },
-            };
-          },
-        }}
-      />
-    </RootStack.Navigator>
+        <RootStack.Screen
+          name="Alert"
+          component={Modal}
+          options={{
+            animationEnabled: true,
+            cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.15)' },
+            cardOverLayEnabled: true,
+            cardStyleInterpolator: ({ current: { progress } }) => {
+              return {
+                cardStyle: {
+                  opacity: progress.interpolate({
+                    inputRange: [0, 0.5, 0.9, 1],
+                    outputRange: [0, 0.25, 0.7, 1],
+                  }),
+                },
+                overlayStyle: {
+                  opacity: progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 0.5],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              };
+            },
+          }}
+        />
+      </RootStack.Navigator>
+    </ProfileCreationContext.Provider>
   );
 };
 

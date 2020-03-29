@@ -1,2 +1,2 @@
 export * from './CenteringView';
-export * from './Inputs';
+export TextInput from './TextInput';

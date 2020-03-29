@@ -1,23 +1,19 @@
 import React, { useState, useContext } from 'react';
 import { ProfileCreationContext } from '../contexts';
-import {
-  ActivityIndicator,
-  Button,
-  KeyboardAvoidingView,
-  Text,
-  View,
-} from 'react-native';
-import { CenteringView, TextEntry } from '../components';
+import { ActivityIndicator, Button, Platform, Text, View } from 'react-native';
+import { CenteringView, TextInput } from '../components';
 import { Formik } from 'formik';
 
 export const ProfileCreation = ({ navigation }) => {
-  // Do this first:
   const [potentialInstagramHandle, setPotentialInstagramHandle] = useState('');
-  // Then this:
-  const setInstagramHandle = useContext(ProfileCreationContext)[1];
-  // ...
+  const [instagramHandle, setInstagramHandle] = useContext(
+    ProfileCreationContext,
+  );
   const yeap = () => {
     console.log('yeap');
+    console.log(potentialInstagramHandle);
+    console.log(setInstagramHandle);
+    setInstagramHandle(potentialInstagramHandle);
   };
   const nope = () => {
     console.log('nope');
@@ -33,7 +29,7 @@ export const ProfileCreation = ({ navigation }) => {
   };
   return (
     <CenteringView>
-      <Text>What's your Instagram handle?</Text>
+      <Text style={{ textAlign: 'center' }}>What's your Instagram handle?</Text>
       <Formik
         initialValues={{ instagramHandle: '' }}
         onSubmit={values => handleFormSubmit(values.instagramHandle)}>

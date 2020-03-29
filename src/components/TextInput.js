@@ -3,7 +3,7 @@ import { TextInput } from 'react-native';
 import styled from 'styled-components/native';
 import { blue, eigengrau } from '../utils';
 
-export const TextEntry = styled.TextInput`
+const AppTextInput = styled.TextInput`
   border-color: ${blue};
   border-width: 2px;
   border-radius: 4px;
@@ -13,3 +13,5 @@ export const TextEntry = styled.TextInput`
   padding: 4px 12px;
   color: ${eigengrau};
 `;
+
+export default AppTextInput;

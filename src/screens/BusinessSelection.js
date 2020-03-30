@@ -1,12 +1,14 @@
-import React from 'react';
-import { Button, Dimensions, FlatList, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  Button,
+  FlatList,
+  KeyboardAvoidingView,
+  Text,
+  View,
+} from 'react-native';
 import styled from 'styled-components/native';
 import { CenteringView, TextInput } from '../components';
 import { restaurants } from '../data';
-
-const { width, height } = Dimensions.get('window');
-console.log(width);
-console.log(height);
 
 const ItemView = styled.View`
   display: flex;
@@ -22,20 +24,42 @@ const Business = ({ name }) => (
 );
 
 export const BusinessSelection = ({ navigation }) => {
+  const [businessSearch, setBusinessSearch] = useState('');
+  const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
+  useEffect(() => {
+    setFilteredRestaurants(
+      restaurants.filter(restaurant =>
+        restaurant.name.includes(businessSearch),
+      ),
+    );
+  }, [businessSearch]);
+  businessSelect = business => {
+    console.log(business);
+    navigation.push('Logoing', { business: business });
+  };
   return (
     <CenteringView>
-      <Text>Where are you Logoing from?</Text>
+      <Text>Where are you using Logoed from?</Text>
       <Text>
         Choose from the list or hit the button to scan a provided QR code.
       </Text>
-      <TextInput></TextInput>
-      <View style={{ height: 400 }}>
-        <FlatList
-          data={restaurants}
-          renderItem={({ item }) => <Business name={item.name} />}
-          keyExtractor={item => item.name}
-        />
-      </View>
+      <KeyboardAvoidingView>
+        <View style={{ height: 400 }}>
+          <TextInput
+            onChangeText={text => setBusinessSearch(text)}
+            autoCorrect={false}
+          />
+          <Button
+            onPress={() => businessSelect(businessSearch)}
+            title="Submit"
+          />
+          <FlatList
+            data={filteredRestaurants}
+            renderItem={({ item }) => <Business name={item.name} />}
+            keyExtractor={item => item.name}
+          />
+        </View>
+      </KeyboardAvoidingView>
       <Button
         onPress={() => navigation.push('CodeScanner')}
         title="Scan QR Code!"

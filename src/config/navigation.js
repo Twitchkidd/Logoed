@@ -25,27 +25,6 @@ import {
   ToS,
 } from '../screens';
 
-/*auth0.webAuth
-    .clearSession({})
-    .then(success => {
-        Alert.alert(
-            'Logged out!'
-        );
-        this.setState({ accessToken: null });
-    })
-    .catch(error => {
-        console.log('Log out cancelled');
-    });
-*/
-
-/*
-auth0
-  .users('the user access_token')
-  .patchUser({id: 'user_id', metadata: {first_name: 'John', last_name: 'Doe'}})
-  .then(console.log)
-  .catch(console.error);
-*/
-
 const ProfileCreationStack = createStackNavigator();
 const ProfileCreationStackScreen = () => (
   <ProfileCreationStack.Navigator headerMode="none">
@@ -93,18 +72,6 @@ const RootStackScreen = () => {
     clientId: 'DUO3kbgsYfJihwAwpeQ3L5KeVngowCqc',
   });
   useEffect(() => {
-    // while Loading is displayed,
-    // if there is an accessToken in AsyncStorage, try for user data,
-    // if there is user data, set it and see if there's an IG handle,
-    // if there isn't an IG handle, display ProfileCreation,
-    //   ProfileCreation will run checkProfile() until it succeeds, in which case set IG handle on the user and display BusinessSelection
-    // if there is an IG handle and we've come from a recent accessToken, display Home, (I nixed this)
-    // if there was an accessToken, but it has expired, display an alert that you've been signed out and then run the auth0 sign in/up function,
-    // if the auth0 sign in/up function fails, display SignInPrompt (withError) (with contact info for if it really doesn't work)
-    // if the auth0 sign in/up function succeeds, set user data and check if there's an IG handle,
-    // if there isn't an IG handle, display ProfileCreation,
-    //   ProfileCreation will run checkProfile() until it succeeds, in which case set IG handle on the user and display BusinessSelection
-    // if there is an IG handle and we've come from a new instance of sign in/up, that we know of, display BusinessSelection
     const checkForStoredAccessToken = async () => {
       try {
         const storedAccessToken = await AsyncStorage.getItem('accessToken');
@@ -114,18 +81,21 @@ const RootStackScreen = () => {
           tryAuth();
         }
       } catch (asyncStorageError) {
-        console.error(asyncStorageError);
+        console.log(asyncStorageError);
         tryAuth();
       }
     };
     const tryAccessToken = async storedAccessToken => {
       try {
         const user = await auth0.auth.userInfo({ token: storedAccessToken });
-        console.log(user);
-        setUser(user);
-        setIsLoading(false);
+        if (user !== null) {
+          setUser(user);
+          setIsLoading(false);
+        } else {
+          tryAuth();
+        }
       } catch (reauthenticationError) {
-        console.error(reauthenticationError);
+        console.log(reauthenticationError);
       }
     };
     const tryAuth = async () => {
@@ -136,23 +106,22 @@ const RootStackScreen = () => {
         try {
           await AsyncStorage.setItem('accessToken', accessToken);
         } catch (asyncStorageError) {
-          console.error(asyncStorageError);
+          console.log(asyncStorageError);
         }
-        // getUserData(accessToken);
-        setIsLoading(false);
+        try {
+          const user = await auth0.auth.userInfo({ token: accessToken });
+          if (user !== null) {
+            setUser(user);
+            setIsLoading(false);
+          } else {
+            tryAuth();
+          }
+        } catch (authenticationError) {
+          console.log(authenticationError);
+        }
       } catch (authError) {
-        console.error(authError);
-      }
-    };
-    const getUserData = async accessToken => {
-      try {
-        // This is where I need to implement my own DB call, the Auth0 Management API is seperate from the Authentication API
-        const user = await auth0.auth.userInfo({ token: accessToken });
-        console.log(user);
-        setUser(user);
-        setIsLoading(false);
-      } catch (userInfoError) {
-        console.error(userInfoError);
+        console.log(authError);
+        tryAuth();
       }
     };
     checkForStoredAccessToken();
@@ -165,7 +134,7 @@ const RootStackScreen = () => {
         mode="modal">
         {isLoading ? (
           <RootStack.Screen name="Loading" component={Loading} />
-        ) : instagramHandle ? (
+        ) : instagramHandle[0] ? (
           <RootStack.Screen
             name="LogoingStack"
             component={LogoingStackScreen}

@@ -13,6 +13,7 @@ import { TextInput } from '../components';
 
 export const ProfileCreation = ({ navigation, route }) => {
   const [inputHasBeenFocusedOn, setInputHasBeenFocusedOn] = useState(false);
+  const [textHasBeenChanged, setTextHasBeenChanged] = useState(false);
   const [potentialInstagramHandle, setPotentialInstagramHandle] = useState(
     'YourAwesomeInsta!',
   );
@@ -52,11 +53,17 @@ export const ProfileCreation = ({ navigation, route }) => {
             setInputHasBeenFocusedOn(true);
             setPotentialInstagramHandle('');
           }}
-          onChangeText={text => setPotentialInstagramHandle(text)}
+          onChangeText={text => {
+            setPotentialInstagramHandle(text);
+            if (text !== '') {
+              console.log(text);
+              setTextHasBeenChanged(true);
+            }
+          }}
           value={potentialInstagramHandle}
         />
         <Button
-          disabled={!inputHasBeenFocusedOn}
+          disabled={!inputHasBeenFocusedOn || !textHasBeenChanged}
           onPress={handleSubmit}
           title="Submit"
         />

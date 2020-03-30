@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Text } from 'react-native';
-import { serif, sans, mostlyWhite, eigengrau } from '../utilities';
+import { serif, sans, mostlyWhite, eigengrau } from '../utils';
 
 export const H1 = styled.Text`
   ${serif}

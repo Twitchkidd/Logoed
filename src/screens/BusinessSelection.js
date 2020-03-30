@@ -20,7 +20,7 @@ const ItemView = styled.View`
 
 const Business = ({ handlePress, name }) => (
   <ItemView>
-    <TouchableOpacity onPress={handlePress(name)}>
+    <TouchableOpacity onPress={() => handlePress(name)}>
       <Text>{name}</Text>
     </TouchableOpacity>
   </ItemView>
@@ -29,15 +29,12 @@ const Business = ({ handlePress, name }) => (
 export const BusinessSelection = ({ navigation }) => {
   const [businessSearch, setBusinessSearch] = useState('');
   const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
-  useEffect(() => {
+  const handleSearchChange = text => {
     setFilteredRestaurants(
-      restaurants.filter(restaurant =>
-        restaurant.name.includes(businessSearch),
-      ),
+      restaurants.filter(restaurant => restaurant.name.includes(text)),
     );
-  }, [businessSearch]);
-  businessSelect = business => {
-    console.log(business);
+  };
+  const businessSelect = business => {
     navigation.push('Logoing', { business: business });
   };
   return (
@@ -49,7 +46,11 @@ export const BusinessSelection = ({ navigation }) => {
       <KeyboardAvoidingView>
         <View style={{ height: 400 }}>
           <TextInput
-            onChangeText={text => setBusinessSearch(text)}
+            onChangeText={text => {
+              setBusinessSearch(text);
+              handleSearchChange(text);
+            }}
+            value={businessSearch}
             autoCorrect={false}
           />
           <Button

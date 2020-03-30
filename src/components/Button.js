@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { P } from './Type';
-import { blue, mediumGray } from '../utilities';
+import { blue, mediumGray } from '../utils';
 
 //width: ${props => (props.wide ? "90%" : "35%")};
 //height: ${Dimensions.get("window").height / 10};

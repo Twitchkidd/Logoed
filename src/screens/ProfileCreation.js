@@ -1,48 +1,66 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ProfileCreationContext } from '../contexts';
-import { ActivityIndicator, Button, Platform, Text, View } from 'react-native';
-import { CenteringView, TextInput } from '../components';
+import {
+  ActivityIndicator,
+  Button,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  View,
+} from 'react-native';
+import { TextInput } from '../components';
 
-export const ProfileCreation = ({ navigation }) => {
-  const [textHasBeenChanged, setTextHasBeenChanged] = useState(false);
+export const ProfileCreation = ({ navigation, route }) => {
+  const [inputHasBeenFocusedOn, setInputHasBeenFocusedOn] = useState(false);
   const [potentialInstagramHandle, setPotentialInstagramHandle] = useState(
     'YourAwesomeInsta!',
   );
   const [instagramHandle, setInstagramHandle] = useContext(
     ProfileCreationContext,
   );
-  const yeap = () => {
-    setInstagramHandle(potentialInstagramHandle);
-  };
-  const nope = () => {
-    setPotentialInstagramHandle('YourAwesomeInsta!');
-    setTextHasBeenChanged(false);
-  };
-  const handleFormSubmit = () => {
+  useEffect(() => {
+    if (route.params) {
+      if (route.params.response === 'yeap') {
+        setInstagramHandle(potentialInstagramHandle);
+      } else if (route.params.response === 'nope') {
+        setPotentialInstagramHandle('YourAwesomeInsta!');
+        setInputHasBeenFocusedOn(false);
+      }
+    }
+  }, [route.params]);
+  const handleSubmit = () => {
+    Keyboard.dismiss();
     navigation.navigate('Modal', {
       type: 'instagramHandleChecker',
       handle: potentialInstagramHandle,
-      yeap,
-      nope,
     });
   };
   return (
-    <CenteringView>
-      <Text style={{ textAlign: 'center' }}>What's your Instagram handle?</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.Os === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View>
+        <Text style={{ textAlign: 'center' }}>
+          What's your Instagram handle?
+        </Text>
+      </View>
       <View>
         <TextInput
-          onChangeText={text => {
-            setTextHasBeenChanged(true);
-            setPotentialInstagramHandle(text);
+          autocomplete={false}
+          onFocus={() => {
+            setInputHasBeenFocusedOn(true);
+            setPotentialInstagramHandle('');
           }}
+          onChangeText={text => setPotentialInstagramHandle(text)}
           value={potentialInstagramHandle}
         />
         <Button
-          disabled={!textHasBeenChanged}
+          disabled={!inputHasBeenFocusedOn}
           onPress={handleSubmit}
           title="Submit"
         />
       </View>
-    </CenteringView>
+    </KeyboardAvoidingView>
   );
 };

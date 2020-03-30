@@ -4,6 +4,7 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import styled from 'styled-components/native';
@@ -17,9 +18,11 @@ const ItemView = styled.View`
   padding: 12px;
 `;
 
-const Business = ({ name }) => (
+const Business = ({ handlePress, name }) => (
   <ItemView>
-    <Text>{name}</Text>
+    <TouchableOpacity onPress={handlePress(name)}>
+      <Text>{name}</Text>
+    </TouchableOpacity>
   </ItemView>
 );
 
@@ -55,7 +58,12 @@ export const BusinessSelection = ({ navigation }) => {
           />
           <FlatList
             data={filteredRestaurants}
-            renderItem={({ item }) => <Business name={item.name} />}
+            renderItem={({ item }) => (
+              <Business
+                name={item.name}
+                handlePress={name => setBusinessSearch(name)}
+              />
+            )}
             keyExtractor={item => item.name}
           />
         </View>

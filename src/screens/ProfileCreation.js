@@ -56,7 +56,6 @@ export const ProfileCreation = ({ navigation, route }) => {
           onChangeText={text => {
             setPotentialInstagramHandle(text);
             if (text !== '') {
-              console.log(text);
               setTextHasBeenChanged(true);
             }
           }}

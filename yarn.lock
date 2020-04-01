@@ -5676,6 +5676,13 @@ react-native-camera@^3.21.0:
   dependencies:
     prop-types "^15.6.2"
 
+react-native-draggable@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-draggable/-/react-native-draggable-3.0.0.tgz#bc57a8b662fb1140796e69b46d11e581a8c74a42"
+  integrity sha512-C64HST8yivIGARiVXyW5jkqRWGkdLkFrbQIR8pXuJ17J67ygMYe+LI66SVQBRT5ABfBvCxp1LTLfxJZSvneIWg==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-gesture-handler@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
@@ -5712,6 +5719,11 @@ react-native-screens@^2.4.0:
   integrity sha512-7GcXlaj7IIrM4l5Ub7BPTkNQJ2slHGt2bhmfWmW73NTXEv+7pjHlp+JpQO32Yn+O8UQGPFf0rsesfYUdER7ppQ==
   dependencies:
     debounce "^1.2.0"
+
+react-native-view-shot@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
+  integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
 
 react-native@0.61.5:
   version "0.61.5"

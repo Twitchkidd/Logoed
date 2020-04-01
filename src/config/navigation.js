@@ -95,7 +95,9 @@ const RootStackScreen = () => {
           tryAuth();
         }
       } catch (reauthenticationError) {
+        console.log('reauthenticationError');
         console.log(reauthenticationError);
+        tryAuth();
       }
     };
     const tryAuth = async () => {
@@ -117,6 +119,7 @@ const RootStackScreen = () => {
             tryAuth();
           }
         } catch (authenticationError) {
+          console.log('authenticationError');
           console.log(authenticationError);
         }
       } catch (authError) {

@@ -1,5 +1,14 @@
 export default [
-  { name: 'Burgerology' },
+  {
+    name: 'Burgerology',
+    logo: require('../logos/burgerology-logo.jpg'),
+    handle: '@burgerologyny',
+  },
+  {
+    name: 'Leilu',
+    logo: require('../logos/leilu-logo.png'),
+    handle: '@leiluhuntington',
+  },
   { name: 'Mundays' },
   { name: 'The Shed' },
   { name: 'Toast & Co.' },

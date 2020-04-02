@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ProfileCreationContext } from '../contexts';
 import {
   ActivityIndicator,
   Button,
@@ -17,14 +16,9 @@ export const ProfileCreation = ({ navigation, route }) => {
   const [potentialInstagramHandle, setPotentialInstagramHandle] = useState(
     'YourAwesomeInsta!',
   );
-  const [instagramHandle, setInstagramHandle] = useContext(
-    ProfileCreationContext,
-  );
   useEffect(() => {
     if (route.params) {
-      if (route.params.response === 'yeap') {
-        setInstagramHandle(potentialInstagramHandle);
-      } else if (route.params.response === 'nope') {
+      if (route.params.response === 'nope') {
         setPotentialInstagramHandle('YourAwesomeInsta!');
         setInputHasBeenFocusedOn(false);
       }

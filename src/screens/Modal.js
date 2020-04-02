@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { ProfileCreationContext } from '../contexts';
 
 export const Modal = ({ navigation, route }) => {
   const { type } = route.params;
+  const [instagramHandle, setInstagramHandle] = useContext(
+    ProfileCreationContext,
+  );
   return (
     <View
       style={{
@@ -16,9 +20,12 @@ export const Modal = ({ navigation, route }) => {
           <Text>Is this you? "{`${route.params.handle}`}"</Text>
           <TouchableOpacity
             style={{ backgroundColor: 'white', padding: 24 }}
-            onPress={() =>
-              navigation.navigate('ProfileCreation', { response: 'yeap' })
-            }>
+            onPress={() => {
+              setInstagramHandle(route.params.handle);
+              setTimeout(() => {
+                navigation.navigate('LogoingStack');
+              }, 40);
+            }}>
             <Text>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity

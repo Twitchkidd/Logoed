@@ -129,6 +129,11 @@ const RootStackScreen = () => {
     };
     checkForStoredAccessToken();
   }, []);
+  useEffect(() => {
+    console.log('Hello?');
+    console.log(instagramHandle[0]);
+    instagramHandle[1](instagramHandle[0]);
+  }, [instagramHandle[0]]);
   return (
     <ProfileCreationContext.Provider value={instagramHandle}>
       <RootStack.Navigator

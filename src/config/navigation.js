@@ -10,6 +10,7 @@ import {
   BusinessInfo,
   BusinessSelection,
   CodeScanner,
+  CopyCaption,
   Feedback,
   FindBusiness,
   Home,
@@ -20,33 +21,38 @@ import {
   ProfileCreation,
   Rewards,
   Settings,
-  Sharing,
+  ShareIt,
   SignInPrompt,
   ToS,
 } from '../screens';
+import { mostlyWhite, lightOrange } from "../utils";
 
 const ProfileCreationStack = createStackNavigator();
 const ProfileCreationStackScreen = () => (
-  <ProfileCreationStack.Navigator headerMode="none">
+  <ProfileCreationStack.Navigator>
     <ProfileCreationStack.Screen
       name="ProfileCreation"
       component={ProfileCreation}
+      options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}
     />
   </ProfileCreationStack.Navigator>
 );
 
 const LogoingStack = createStackNavigator();
 const LogoingStackScreen = () => (
-  <LogoingStack.Navigator headerMode="none">
+  // <LogoingStack.Navigator headerMode="none">
+  <LogoingStack.Navigator>
     <LogoingStack.Screen
       name="BusinessSelection"
       component={BusinessSelection}
+      options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}
     />
-    <LogoingStack.Screen name="CodeScanner" component={CodeScanner} />
-    <LogoingStack.Screen name="FindBusiness" component={FindBusiness} />
-    <LogoingStack.Screen name="BusinessInfo" component={BusinessInfo} />
-    <LogoingStack.Screen name="Logoing" component={Logoing} />
-    <LogoingStack.Screen name="Sharing" component={Sharing} />
+    <LogoingStack.Screen name="CodeScanner" component={CodeScanner} options={{ header: () => null }}/>
+    <LogoingStack.Screen name="FindBusiness" component={FindBusiness} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
+    <LogoingStack.Screen name="BusinessInfo" component={BusinessInfo} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
+    <LogoingStack.Screen name="Logoing" component={Logoing} options={{ header: () => null }}/>
+    <LogoingStack.Screen name="CopyCaption" component={CopyCaption} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
+    <LogoingStack.Screen name="ShareIt" component={ShareIt} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
   </LogoingStack.Navigator>
 );
 

@@ -1,6 +1,7 @@
 export * from './BusinessInfo';
 export * from './BusinessSelection';
 export * from './CodeScanner';
+export * from './CopyCaption';
 export * from './Feedback';
 export * from './FindBusiness';
 export * from './Home';
@@ -11,6 +12,6 @@ export * from './Profile';
 export * from './ProfileCreation';
 export * from './Rewards';
 export * from './Settings';
-export * from './Sharing';
+export * from './ShareIt';
 export * from './SignInPrompt';
 export * from './ToS';

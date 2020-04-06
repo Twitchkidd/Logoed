@@ -2,19 +2,19 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components/native';
 import {
   ActivityIndicator,
-  CameraRoll,
   ClipBoard,
   Dimensions,
   Image,
   Linking,
   Modal,
+  PixelRatio,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { CenteringView } from '../components';
-import { restaurants } from '../data';
 import { RNCamera } from 'react-native-camera';
+import CameraRoll from '@react-native-community/cameraroll';
 import ViewShot from 'react-native-view-shot';
 import Draggable from 'react-native-draggable';
 import {
@@ -25,42 +25,54 @@ import {
   mostlyWhite,
   maroon,
 } from '../utils';
+import { restaurants } from '../data';
 
 export const Logoing = ({ navigation, route }) => {
   const { business } = route.params;
-  const restaurant = restaurants.filter(item => item.name === business);
-  const [x, setX] = useState();
-  const [y, setY] = useState();
+  const restaurant = restaurants.filter(item => item.name === business)[0];
+  const [x, setX] = useState(20);
+  const [y, setY] = useState(80);
   const [snapShot, setSnapShot] = useState(null);
-  const [pending, setPending] = useState(true);
+  const [pendingDrag, setPendingDrag] = useState(true);
+  const [pendingSnapShot, setPendingSnapShot] = useState(true);
   const camera = useRef();
   const viewShot = useRef();
-  const { width } = Dimensions.get('window');
+  const { width, height } = Dimensions.get('window');
+  const pixelRatio = PixelRatio.get();
   const setXY = (e, gestureState) => {
-    setX(x + Math.round(gestureState.dx));
-    setY(y + Math.round(gestureState.dy));
+    setX(x + gestureState.dx / pixelRatio);
+    setY(y + gestureState.dy / pixelRatio);
+    setPendingDrag(false);
   };
   const takeSnapShot = async camera => {
     const options = { quality: 1.0, base64: true };
     const data = await camera.takePictureAsync(options);
-    console.log(data.uri);
     setSnapShot(data.uri);
-    setPending(false);
+    setPendingSnapShot(false);
+    saveImage();
   };
   const saveImage = () => {
-    CameraRoll.saveToCameraRoll(viewShot)
-      .then(() => console.log('camera roll save success!'))
+    viewShot.current
+      .capture()
+      .then(uri => {
+        CameraRoll.saveToCameraRoll(uri)
+          .then(() => {
+            console.log('camera roll save success!');
+            navigation.push("CopyCaption", { restaurant, viewShot: uri });
+          })
+          .catch(err => console.log(err));
+      })
       .catch(err => console.log(err));
   };
   return (
-    <>
       <View
         style={{
           flex: 1,
           flexDirection: 'column',
           backgroundColor: eigengrau,
         }}>
-        {pending ? (
+        {pendingSnapShot ? (
+          <>
           <RNCamera
             ref={camera}
             type={RNCamera.Constants.Type.back}
@@ -114,26 +126,38 @@ export const Logoing = ({ navigation, route }) => {
                       zIndex: 90,
                     }}
                     onPress={() => takeSnapShot(camera)}>
-                    <Text>Boop</Text>
+                    <View />
                   </TouchableOpacity>
                 </View>
               );
             }}
           </RNCamera>
+          <Draggable
+            x={x}
+            y={y}
+            z={3}
+            onDragRelease={(e, gestureState) => setXY(e, gestureState)}
+            imageSource={restaurant.logo}
+            renderSize={width / 3}
+          />
+        </>
         ) : (
-          <ViewShot ref={viewShot}>
-            <Image source={{ uri: snapShot }} />
+          <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ViewShot ref={viewShot} options={{ format: 'jpg', quality: 1.0 }}>
+            <Image source={{ uri: snapShot }} style={{ width: width, height: height }} />
+            <Draggable
+              x={x * pixelRatio}
+              y={y * pixelRatio}
+              disabled
+              z={3}
+              onDragRelease={(e, gestureState) => setXY(e, gestureState)}
+              imageSource={restaurant.logo}
+              renderSize={width / 3}
+            />
           </ViewShot>
+      </View>
         )}
       </View>
-      <Draggable
-        x={x}
-        y={y}
-        z={2}
-        onDragRelease={(e, gestureState) => setXY(e, gestureState)}
-        imageSource={restaurant.logo}
-        renderSize={width / 3}
-      />
-    </>
   );
 };

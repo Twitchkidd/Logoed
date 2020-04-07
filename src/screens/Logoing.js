@@ -254,7 +254,7 @@ export const Logoing = ({ navigation, route }) => {
                 borderColor: lightOrange,
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginBottom: infoBoxBottomZoomAnim,
+                marginTop: infoBoxBottomZoomAnim,
                 marginLeft: infoBoxLeftZoomAnim,
                 opacity: infoBoxFadeAnim,
               }}>
@@ -346,7 +346,7 @@ export const Logoing = ({ navigation, route }) => {
                 borderColor: lightOrange,
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginBottom: infoBoxBottomZoomAnim,
+                marginTop: infoBoxBottomZoomAnim,
                 marginLeft: infoBoxLeftZoomAnim,
                 opacity: infoBoxFadeAnim,
               }}>

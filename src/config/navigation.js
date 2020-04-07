@@ -25,7 +25,7 @@ import {
   SignInPrompt,
   ToS,
 } from '../screens';
-import { mostlyWhite, lightOrange } from "../utils";
+import { mostlyWhite, darkOrange } from '../utils';
 
 const ProfileCreationStack = createStackNavigator();
 const ProfileCreationStackScreen = () => (
@@ -33,26 +33,73 @@ const ProfileCreationStackScreen = () => (
     <ProfileCreationStack.Screen
       name="ProfileCreation"
       component={ProfileCreation}
-      options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}
+      options={{
+        headerStyle: { backgroundColor: darkOrange },
+        title: 'Profile Creation',
+        headerTitleStyle: { color: mostlyWhite, fontSize: 20 },
+      }}
     />
   </ProfileCreationStack.Navigator>
 );
 
 const LogoingStack = createStackNavigator();
 const LogoingStackScreen = () => (
-  // <LogoingStack.Navigator headerMode="none">
   <LogoingStack.Navigator>
     <LogoingStack.Screen
       name="BusinessSelection"
       component={BusinessSelection}
-      options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}
+      options={{
+        headerStyle: { backgroundColor: darkOrange },
+        title: 'Logoed',
+        headerTitleStyle: { color: mostlyWhite },
+      }}
     />
-    <LogoingStack.Screen name="CodeScanner" component={CodeScanner} options={{ header: () => null }}/>
-    <LogoingStack.Screen name="FindBusiness" component={FindBusiness} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
-    <LogoingStack.Screen name="BusinessInfo" component={BusinessInfo} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
-    <LogoingStack.Screen name="Logoing" component={Logoing} options={{ header: () => null }}/>
-    <LogoingStack.Screen name="CopyCaption" component={CopyCaption} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
-    <LogoingStack.Screen name="ShareIt" component={ShareIt} options={{ headerStyle: { backgroundColor: lightOrange }, title: "Logoed", headerTitleStyle: { color: mostlyWhite } }}/>
+    <LogoingStack.Screen
+      name="CodeScanner"
+      component={CodeScanner}
+      options={{ header: () => null }}
+    />
+    <LogoingStack.Screen
+      name="FindBusiness"
+      component={FindBusiness}
+      options={{
+        headerStyle: { backgroundColor: darkOrange },
+        title: 'Logoed',
+        headerTitleStyle: { color: mostlyWhite },
+      }}
+    />
+    <LogoingStack.Screen
+      name="BusinessInfo"
+      component={BusinessInfo}
+      options={{
+        headerStyle: { backgroundColor: darkOrange },
+        title: 'Logoed',
+        headerTitleStyle: { color: mostlyWhite },
+      }}
+    />
+    <LogoingStack.Screen
+      name="Logoing"
+      component={Logoing}
+      options={{ header: () => null }}
+    />
+    <LogoingStack.Screen
+      name="CopyCaption"
+      component={CopyCaption}
+      options={{
+        headerStyle: { backgroundColor: darkOrange },
+        title: 'Logoed',
+        headerTitleStyle: { color: mostlyWhite },
+      }}
+    />
+    <LogoingStack.Screen
+      name="ShareIt"
+      component={ShareIt}
+      options={{
+        headerStyle: { backgroundColor: darkOrange },
+        title: 'Logoed',
+        headerTitleStyle: { color: mostlyWhite },
+      }}
+    />
   </LogoingStack.Navigator>
 );
 
@@ -136,8 +183,6 @@ const RootStackScreen = () => {
     checkForStoredAccessToken();
   }, []);
   useEffect(() => {
-    console.log('Hello?');
-    console.log(instagramHandle[0]);
     instagramHandle[1](instagramHandle[0]);
   }, [instagramHandle[0]]);
   return (

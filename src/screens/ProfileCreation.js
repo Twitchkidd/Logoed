@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { TextInput } from '../components';
-import { eigengrau, crayGray} from "../utils";
+import { eigengrau, crayGray } from '../utils';
 
 export const ProfileCreation = ({ navigation, route }) => {
   const [inputHasBeenFocusedOn, setInputHasBeenFocusedOn] = useState(false);
@@ -37,8 +37,7 @@ export const ProfileCreation = ({ navigation, route }) => {
       behavior={Platform.Os === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View>
-        <Text style={{ fontSize: 30, textAlign: 'center', paddingBottom: 20}}>Profile Creation</Text>
-        <Text style={{ fontSize: 20, textAlign: 'center', paddingBottom: 10 }}>
+        <Text style={{ fontSize: 24, textAlign: 'center', paddingBottom: 12 }}>
           Just your Instagram handle!
         </Text>
       </View>
@@ -56,7 +55,10 @@ export const ProfileCreation = ({ navigation, route }) => {
             }
           }}
           value={potentialInstagramHandle}
-          style={{ color: inputHasBeenFocusedOn ? eigengrau : crayGray }}
+          style={{
+            color: inputHasBeenFocusedOn ? eigengrau : crayGray,
+            marginBottom: 16,
+          }}
         />
         <Button
           disabled={!inputHasBeenFocusedOn || !textHasBeenChanged}

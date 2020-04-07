@@ -19,6 +19,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import ViewShot from 'react-native-view-shot';
 import Draggable from 'react-native-draggable';
 import Modal from 'react-native-modal';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
   crayGray,
   eigengrau,
@@ -58,12 +59,13 @@ const Shutter = props => (
 );
 
 const { width, height } = Dimensions.get('window');
-
+console.log(width);
 export const Logoing = ({ navigation, route }) => {
   const { business } = route.params;
   const restaurant = restaurants.filter(item => item.name === business)[0];
-  const [x, setX] = useState(20);
-  const [y, setY] = useState(80);
+  const [x, setX] = useState(46);
+  const [y, setY] = useState(786);
+  const [iconVisible, setIconVisible] = useState(true);
   const [modalin, setModalin] = useState(true);
   const [pendingDrag, setPendingDrag] = useState(true);
   const [pendingSnapShot, setPendingSnapShot] = useState(true);
@@ -72,7 +74,24 @@ export const Logoing = ({ navigation, route }) => {
   const viewShot = useRef();
   const infoBoxZoomAnim = useRef(new Animated.Value(0)).current;
   const infoBoxFadeAnim = useRef(new Animated.Value(0)).current;
+  const iconFadeAnim = useRef(new Animated.Value(1)).current;
   const pixelRatio = PixelRatio.get();
+  const toggleIconAnim = () => {
+    console.log('icon toggle');
+    if (iconVisible) {
+      setIconVisible(false);
+      Animated.timing(iconFadeAnim, {
+        toValue: 0,
+        duration: 300,
+      }).start();
+    } else {
+      setIconVisible(true);
+      Animated.timing(iconFadeAnim, {
+        toValue: 1,
+        duration: 800,
+      }).start();
+    }
+  };
   const animIn = () => {
     Animated.timing(infoBoxZoomAnim, {
       toValue: 0,
@@ -155,11 +174,39 @@ export const Logoing = ({ navigation, route }) => {
                   style={{
                     flex: 0,
                     flexDirection: 'row',
-                    justifyContent: 'center',
+                    width: width,
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    marginBottom: 40,
                   }}>
+                  <View
+                    style={{
+                      height: 20,
+                      width: 20,
+                      opacity: 0,
+                    }}
+                    onLayout={event => {
+                      const { x, y, width, height } = event.nativeEvent.layout;
+                      console.log(x);
+                      console.log(y);
+                      console.log(width);
+                      console.log(height);
+                    }}
+                  />
                   <Shutter onPress={() => takeSnapShot(camera)}>
                     <View />
                   </Shutter>
+                  <Animated.View
+                    style={{ opacity: iconFadeAnim }}
+                    onLayout={event => {
+                      const { width } = event.nativeEvent.layout;
+                      console.log(width);
+                      // set the width of the shadow element to this!
+                    }}>
+                    <TouchableOpacity onPress={() => toggleIconAnim()}>
+                      <Icon name="ios-help" size={75} color={darkOrange} />
+                    </TouchableOpacity>
+                  </Animated.View>
                 </View>
               );
             }}
@@ -170,7 +217,8 @@ export const Logoing = ({ navigation, route }) => {
             z={3}
             onDragRelease={(e, gestureState) => setXY(e, gestureState)}
             imageSource={restaurant.logo}
-            renderSize={width / 3}
+            // renderSize={width / 3}
+            renderSize={60}
           />
         </>
       ) : (

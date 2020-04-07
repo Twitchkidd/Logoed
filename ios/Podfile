@@ -41,6 +41,8 @@ target 'Logoed' do
   pod 'Firebase/Core'
   pod 'Firebase/Analytics'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'LogoedTests' do
     inherit! :search_paths
     # Pods for testing

@@ -1,14 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components/native';
 import {
   ActivityIndicator,
   Animated,
+  Button,
   ClipBoard,
   Dimensions,
   Image,
   Linking,
   PixelRatio,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -58,62 +58,70 @@ const Shutter = props => (
   />
 );
 
-const { width, height } = Dimensions.get('window');
-console.log(width);
 export const Logoing = ({ navigation, route }) => {
   const { business } = route.params;
   const restaurant = restaurants.filter(item => item.name === business)[0];
   const [x, setX] = useState(46);
   const [y, setY] = useState(786);
-  const [iconVisible, setIconVisible] = useState(true);
-  const [modalin, setModalin] = useState(true);
+  const [modalin, setModalin] = useState(false);
+  const [cameraPermission, setCameraPermission] = useState('');
   const [pendingDrag, setPendingDrag] = useState(true);
   const [pendingSnapShot, setPendingSnapShot] = useState(true);
   const [snapShot, setSnapShot] = useState(null);
+  const pixelRatio = PixelRatio.get();
+  const { width, height } = Dimensions.get('window');
   const camera = useRef();
   const viewShot = useRef();
-  const infoBoxZoomAnim = useRef(new Animated.Value(0)).current;
+  const infoBoxLeftZoomAnim = useRef(new Animated.Value(width)).current;
+  const infoBoxBottomZoomAnim = useRef(new Animated.Value(height)).current;
   const infoBoxFadeAnim = useRef(new Animated.Value(0)).current;
   const iconFadeAnim = useRef(new Animated.Value(1)).current;
-  const pixelRatio = PixelRatio.get();
-  const toggleIconAnim = () => {
-    console.log('icon toggle');
-    if (iconVisible) {
-      setIconVisible(false);
-      Animated.timing(iconFadeAnim, {
-        toValue: 0,
-        duration: 300,
-      }).start();
-    } else {
-      setIconVisible(true);
-      Animated.timing(iconFadeAnim, {
-        toValue: 1,
-        duration: 800,
-      }).start();
-    }
-  };
-  const animIn = () => {
-    Animated.timing(infoBoxZoomAnim, {
+  const infoBoxZoomInLeft = () => {
+    Animated.timing(infoBoxLeftZoomAnim, {
       toValue: 0,
       duration: 500,
     }).start();
   };
-  const fadeIn = () => {
+  const infoBoxZoomOutLeft = () => {
+    Animated.timing(infoBoxLeftZoomAnim, {
+      toValue: width,
+      duration: 500,
+    }).start();
+  };
+  const infoBoxZoomInBottom = () => {
+    Animated.timing(infoBoxBottomZoomAnim, {
+      toValue: 0,
+      duration: 500,
+    }).start();
+  };
+  const infoBoxZoomOutBottom = () => {
+    Animated.timing(infoBoxBottomZoomAnim, {
+      toValue: height,
+      duration: 500,
+    }).start();
+  };
+  const infoBoxFadeIn = () => {
     Animated.timing(infoBoxFadeAnim, {
       toValue: 1,
       duration: 500,
     }).start();
   };
-  const animOut = () => {
-    Animated.timing(infoBoxZoomAnim, {
-      toValue: 500,
-      duration: 500,
-    }).start();
-  };
-  const fadeOut = () => {
+  const infoBoxFadeOut = () => {
     Animated.timing(infoBoxFadeAnim, {
       toValue: 0,
       duration: 500,
+    }).start();
+  };
+  const iconFadeIn = () => {
+    Animated.timing(iconFadeAnim, {
+      toValue: 1,
+      duration: 200,
+    }).start();
+  };
+  const iconFadeOut = () => {
+    Animated.timing(iconFadeAnim, {
+      toValue: 0,
+      duration: 200,
     }).start();
   };
   const setXY = (e, gestureState) => {
@@ -141,6 +149,11 @@ export const Logoing = ({ navigation, route }) => {
       })
       .catch(err => console.log(err));
   };
+  useEffect(() => {
+    if (cameraPermission === 'READY') {
+      setModalin(true);
+    }
+  }, [cameraPermission]);
   return (
     <View
       style={{
@@ -169,6 +182,7 @@ export const Logoing = ({ navigation, route }) => {
             }}>
             {({ camera, status }) => {
               if (status !== 'READY') return <PendingCamera />;
+              setCameraPermission(status);
               return (
                 <View
                   style={{
@@ -185,25 +199,12 @@ export const Logoing = ({ navigation, route }) => {
                       width: 20,
                       opacity: 0,
                     }}
-                    onLayout={event => {
-                      const { x, y, width, height } = event.nativeEvent.layout;
-                      console.log(x);
-                      console.log(y);
-                      console.log(width);
-                      console.log(height);
-                    }}
                   />
                   <Shutter onPress={() => takeSnapShot(camera)}>
                     <View />
                   </Shutter>
-                  <Animated.View
-                    style={{ opacity: iconFadeAnim }}
-                    onLayout={event => {
-                      const { width } = event.nativeEvent.layout;
-                      console.log(width);
-                      // set the width of the shadow element to this!
-                    }}>
-                    <TouchableOpacity onPress={() => toggleIconAnim()}>
+                  <Animated.View style={{ width: 20, opacity: iconFadeAnim }}>
+                    <TouchableOpacity onPress={() => setModalin(true)}>
                       <Icon name="ios-help" size={75} color={darkOrange} />
                     </TouchableOpacity>
                   </Animated.View>
@@ -220,6 +221,47 @@ export const Logoing = ({ navigation, route }) => {
             // renderSize={width / 3}
             renderSize={60}
           />
+          <Modal
+            isVisible={modalin}
+            onBackdropPress={() => setModalin(false)}
+            animationInTiming={0}
+            animationOutTiming={0}
+            backdropOpacity={0.6}
+            onModalWillShow={() => {
+              iconFadeOut();
+            }}
+            onModalShow={() => {
+              infoBoxZoomInBottom();
+              infoBoxZoomInLeft();
+              infoBoxFadeIn();
+            }}
+            onModalWillHide={() => {
+              infoBoxZoomOutBottom();
+              infoBoxZoomOutLeft();
+              infoBoxFadeOut();
+            }}
+            onModalHide={() => {
+              iconFadeIn();
+            }}
+            style={{ alignItems: 'center' }}>
+            <Animated.View
+              style={{
+                height: height / 3,
+                width: width - 80,
+                backgroundColor: mostlyWhite,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: lightOrange,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: infoBoxBottomZoomAnim,
+                marginLeft: infoBoxLeftZoomAnim,
+                opacity: infoBoxFadeAnim,
+              }}>
+              <Text style={{ fontSize: 20, color: eigengrau }}>AYY!!</Text>
+              <Button title="Pop modal" onPress={() => setModalin(false)} />
+            </Animated.View>
+          </Modal>
         </>
       ) : (
         <View
@@ -242,31 +284,74 @@ export const Logoing = ({ navigation, route }) => {
               <View />
             </Shutter>
           </ViewShot>
+          <View
+            style={{
+              flex: 0,
+              flexDirection: 'row',
+              width: width,
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              marginBottom: 40,
+            }}>
+            <View
+              style={{
+                height: 20,
+                width: 20,
+                opacity: 0,
+              }}
+            />
+            <View
+              style={{
+                height: 80,
+                width: 80,
+                opacity: 0,
+              }}
+            />
+            <Animated.View style={{ width: 20, opacity: iconFadeAnim }}>
+              <TouchableOpacity onPress={() => setModalin(true)}>
+                <Icon name="ios-help" size={75} color={darkOrange} />
+              </TouchableOpacity>
+            </Animated.View>
+          </View>
           <Modal
             isVisible={modalin}
             onBackdropPress={() => setModalin(false)}
-            animationInTiming={500}
-            animationOutTiming={500}
+            animationInTiming={100}
+            animationOutTiming={100}
             backdropOpacity={0.6}
             onModalWillShow={() => {
-              animIn();
-              fadeIn();
+              iconFadeOut();
+            }}
+            onModalShow={() => {
+              infoBoxZoomInBottom();
+              infoBoxZoomInLeft();
+              infoBoxFadeIn();
             }}
             onModalWillHide={() => {
-              animOut();
-              fadeOut();
+              infoBoxZoomOutBottom();
+              infoBoxZoomOutLeft();
+              infoBoxFadeOut();
+            }}
+            onModalHide={() => {
+              iconFadeIn();
             }}
             style={{ alignItems: 'center' }}>
             <Animated.View
-              style={[
-                styles.infoBox,
-                {
-                  // marginBottom: infoBoxZoomAnim,
-                  marginLeft: infoBoxZoomAnim,
-                  opacity: infoBoxFadeAnim,
-                },
-              ]}>
+              style={{
+                height: height / 3,
+                width: width - 80,
+                backgroundColor: mostlyWhite,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: lightOrange,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: infoBoxBottomZoomAnim,
+                marginLeft: infoBoxLeftZoomAnim,
+                opacity: infoBoxFadeAnim,
+              }}>
               <Text style={{ fontSize: 20, color: eigengrau }}>AYY!!</Text>
+              <Button title="Pop modal" onPress={() => setModalin(false)} />
             </Animated.View>
           </Modal>
         </View>
@@ -274,16 +359,3 @@ export const Logoing = ({ navigation, route }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  infoBox: {
-    height: height / 3,
-    width: width - 80,
-    backgroundColor: mostlyWhite,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: lightOrange,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

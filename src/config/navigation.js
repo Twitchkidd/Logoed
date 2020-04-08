@@ -126,17 +126,20 @@ const RootStackScreen = () => {
   });
   useEffect(() => {
     const checkForStoredAccessToken = async () => {
-      try {
-        const storedAccessToken = await AsyncStorage.getItem('accessToken');
-        if (storedAccessToken !== null) {
-          tryAccessToken(storedAccessToken);
-        } else {
+      setTimeout(async () => {
+        try {
+          // await AsyncStorage.removeItem('accessToken');
+          const storedAccessToken = await AsyncStorage.getItem('accessToken');
+          if (storedAccessToken !== null) {
+            tryAccessToken(storedAccessToken);
+          } else {
+            tryAuth();
+          }
+        } catch (asyncStorageError) {
+          console.log(asyncStorageError);
           tryAuth();
         }
-      } catch (asyncStorageError) {
-        console.log(asyncStorageError);
-        tryAuth();
-      }
+      }, 2000);
     };
     const tryAccessToken = async storedAccessToken => {
       try {

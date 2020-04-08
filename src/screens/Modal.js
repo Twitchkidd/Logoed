@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { ProfileCreationContext } from '../contexts';
-import { blue, maroon } from '../utils';
+import { maroon } from '../utils';
 
 export const Modal = ({ navigation, route }) => {
   const { type } = route.params;
@@ -41,26 +41,27 @@ export const Modal = ({ navigation, route }) => {
               }}
               style={{ width: 150, height: 150, borderRadius: 75 }}
             />
-            <Text style={{ fontSize: 20, padding: 16 }}>
-              Is this you? "{`${route.params.handle}`}"
+            <Text style={{ fontSize: 24, paddingTop: 8, paddingBottom: 16 }}>
+              {route.params.handle}
             </Text>
+            <Text style={{ fontSize: 20, padding: 16 }}>Is this you?</Text>
             <Button
-              style={{ color: blue }}
               onPress={() => {
                 setInstagramHandle(route.params.handle);
                 setTimeout(() => {
                   navigation.navigate('LogoingStack');
-                }, 50);
+                }, 60);
               }}
-              title="Yes"
+              title="Yes!"
             />
-            <Button
-              style={{ color: blue }}
-              onPress={() =>
-                navigation.navigate('ProfileCreation', { response: 'nope' })
-              }
-              title="No"
-            />
+            <View style={{ margin: 8 }}>
+              <Button
+                onPress={() =>
+                  navigation.navigate('ProfileCreation', { response: 'nope' })
+                }
+                title="No."
+              />
+            </View>
           </>
         )
       ) : (

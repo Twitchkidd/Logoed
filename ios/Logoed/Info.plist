@@ -101,6 +101,6 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Please allow Logoed to access the camera roll to save the Logoed image. Thank you!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow Logoed to access the camera roll so you can select an image to be Logoed. Thank you!</string>
+	<string>Please allow Logoed to access the camera roll to save the Logoed image. Thank you!</string>
 </dict>
 </plist>

@@ -36,9 +36,9 @@ export const ProfileCreation = ({ navigation, route }) => {
     <KeyboardAvoidingView
       behavior={Platform.Os === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View>
-        <Text style={{ fontSize: 24, textAlign: 'center', paddingBottom: 12 }}>
-          Just your Instagram handle!
+      <View style={{ paddingBottom: 20, width: 220 }}>
+        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+          Please enter your Instagram handle to finish signing up!
         </Text>
       </View>
       <View>
@@ -57,7 +57,9 @@ export const ProfileCreation = ({ navigation, route }) => {
           value={potentialInstagramHandle}
           style={{
             color: inputHasBeenFocusedOn ? eigengrau : crayGray,
-            marginBottom: 16,
+            fontSize: 18,
+            marginBottom: 20,
+            width: 260,
           }}
         />
         <Button

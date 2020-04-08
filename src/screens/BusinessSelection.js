@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components/native';
 import { CenteringView, TextInput } from '../components';
 import { restaurants } from '../data';
+import { lightGray } from '../utils';
 
 const ItemView = styled.View`
   display: flex;
@@ -19,7 +20,7 @@ const ItemView = styled.View`
 `;
 
 const Business = ({ handlePress, name }) => (
-  <ItemView>
+  <ItemView containerStyle={{ borderBottomWidth: 0 }}>
     <TouchableOpacity onPress={() => handlePress(name)}>
       <Text>{name}</Text>
     </TouchableOpacity>
@@ -37,13 +38,28 @@ export const BusinessSelection = ({ navigation }) => {
   const businessSelect = business => {
     navigation.push('Logoing', { business: business });
   };
+  const renderSeperator = () => (
+    <View
+      style={{
+        height: 1,
+        width: '100%',
+        backgroundColor: lightGray,
+      }}
+    />
+  );
   return (
     <CenteringView>
-      <Text>Where are you using Logoed from?</Text>
-      <Text>
-        Choose from the list or hit the button to scan a provided QR code.
+      <Text style={{ fontSize: 20, margin: 16 }}>
+        Where are you using Logoed from?
       </Text>
-      <KeyboardAvoidingView>
+      <View style={{ width: 260, margin: 12 }}>
+        <Text style={{ textAlign: 'center' }}>
+          Choose from the list below or hit the button and auto-select by
+          scanning the QR code!
+        </Text>
+      </View>
+      <KeyboardAvoidingView
+        containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
         <View style={{ height: 400 }}>
           <TextInput
             onChangeText={text => {
@@ -52,6 +68,7 @@ export const BusinessSelection = ({ navigation }) => {
             }}
             value={businessSearch}
             autoCorrect={false}
+            style={{ width: 260 }}
           />
           <Button
             onPress={() => businessSelect(businessSearch)}
@@ -66,9 +83,18 @@ export const BusinessSelection = ({ navigation }) => {
               />
             )}
             keyExtractor={item => item.name}
+            ItemSeparatorComponent={renderSeperator}
+            style={{
+              borderColor: lightGray,
+              borderWidth: 4,
+              borderRadius: 8,
+              marginTop: 8,
+              marginBottom: 16,
+            }}
           />
         </View>
       </KeyboardAvoidingView>
+      <View style={{ margin: 8 }} />
       <Button
         onPress={() => navigation.push('CodeScanner')}
         title="Scan QR Code!"

@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { P } from './Type';
-import { blue, mediumGray } from '../utils';
+import { blue, darkBlue } from '../utils';
 
 //width: ${props => (props.wide ? "90%" : "35%")};
 //height: ${Dimensions.get("window").height / 10};
@@ -25,7 +25,7 @@ const StyledLinearGradient = styled(LinearGradient)`
 export const Button = ({ title, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <StyledLinearGradient colors={[blue, mediumGray]}>
+      <StyledLinearGradient colors={[blue, darkBlue]}>
         <P light>{title}</P>
       </StyledLinearGradient>
     </TouchableOpacity>

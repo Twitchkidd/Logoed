@@ -50,8 +50,8 @@ const LogoingStackScreen = () => (
       component={BusinessSelection}
       options={{
         headerStyle: { backgroundColor: darkOrange },
-        title: 'Logoed',
-        headerTitleStyle: { color: mostlyWhite },
+        title: 'Business Selection',
+        headerTitleStyle: { color: mostlyWhite, fontSize: 20 },
       }}
     />
     <LogoingStack.Screen
@@ -87,8 +87,8 @@ const LogoingStackScreen = () => (
       component={CopyCaption}
       options={{
         headerStyle: { backgroundColor: darkOrange },
-        title: 'Logoed',
-        headerTitleStyle: { color: mostlyWhite },
+        title: 'Copy Caption',
+        headerTitleStyle: { color: mostlyWhite, fontSize: 20 },
       }}
     />
     <LogoingStack.Screen
@@ -96,8 +96,8 @@ const LogoingStackScreen = () => (
       component={ShareIt}
       options={{
         headerStyle: { backgroundColor: darkOrange },
-        title: 'Logoed',
-        headerTitleStyle: { color: mostlyWhite },
+        title: 'Share It',
+        headerTitleStyle: { color: mostlyWhite, fontSize: 20 },
       }}
     />
   </LogoingStack.Navigator>
@@ -139,7 +139,7 @@ const RootStackScreen = () => {
           console.log(asyncStorageError);
           tryAuth();
         }
-      }, 2000);
+      }, 2500);
     };
     const tryAccessToken = async storedAccessToken => {
       try {

@@ -146,7 +146,6 @@ export const Logoing = ({ navigation, route }) => {
     const data = await camera.takePictureAsync(options);
     setSnapShot(data.uri);
     setPendingSnapShot(false);
-    saveImage();
   };
   const saveImage = () => {
     viewShot.current
@@ -154,8 +153,7 @@ export const Logoing = ({ navigation, route }) => {
       .then(uri => {
         CameraRoll.saveToCameraRoll(uri)
           .then(() => {
-            // navigation.push('CopyCaption', { restaurant, viewShot: uri });
-            console.log('ayy');
+            navigation.push('CopyCaption', { restaurant, viewShot: uri });
           })
           .catch(err => console.log(err));
       })
@@ -167,11 +165,12 @@ export const Logoing = ({ navigation, route }) => {
     }
   }, [cameraPermission]);
   useEffect(() => {
-    console.log(x);
-  }, [x]);
-  useEffect(() => {
-    console.log(y);
-  }, [y]);
+    if (!pendingSnapShot) {
+      setTimeout(() => {
+        saveImage();
+      }, 40);
+    }
+  }, [pendingSnapShot]);
   return (
     <View
       style={{
@@ -304,28 +303,20 @@ export const Logoing = ({ navigation, route }) => {
         </>
       ) : (
         <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <ViewShot ref={viewShot} options={{ format: 'jpg', quality: 1.0 }}>
             <Image
               source={{ uri: snapShot }}
               style={{ width: width, height: height }}
             />
-            {/* <Draggable
-              x={x}
-              y={y}
-              disabled
-              z={3}
-              imageSource={restaurant.logo}
-              renderSize={width / 3}
-            /> */}
             <Image
               source={restaurant.logo}
               style={{
                 position: 'absolute',
-                // top: (y * 2) / pixelRatio - width / 3 / 2 - 12,
-                // left: x * pixelRatio - width / 3 / 2,
-                // left: 143,
-                // top: 379,
                 top: y - (786 - y) * pixelRatio,
                 left: x - (46 - x) * pixelRatio,
                 width: width / 3,

@@ -7,14 +7,17 @@ export const ShareIt = ({ navigation, route }) => {
   const { viewShot } = route.params;
   const goToInstagram = () => {
     const instagramURL = `instagram://library?AssetPath=${viewShot}`;
-    setPendingGoingToInstagram(false);
     Linking.openURL(instagramURL);
+    setTimeout(() => {
+      setPendingGoingToInstagram(false);
+    }, 2000);
   };
   const checkIfWeDidIt = () => {
-    navigation.navigate('Modal', {
-      type: 'postChecker',
-      viewShot,
-    });
+    // navigation.navigate('Modal', {
+    //   type: 'postChecker',
+    //   viewShot,
+    // });
+    navigation.navigate('AppDrawer', { screen: 'Home', params: { viewShot } });
   };
   return (
     <CenteringView>
@@ -25,8 +28,8 @@ export const ShareIt = ({ navigation, route }) => {
           paddingBottom: 20,
           textAlign: 'center',
         }}>
-        Please post the Logoed photo to Instagram with the copied caption to
-        enter the raffle!
+        Alright, post the Logoed photo to Instagram with the caption that's
+        copied to the clipboard and enter the raffle!
       </Text>
       <Button title="Okay! To Instagram!" onPress={() => goToInstagram()} />
       {pendingGoingToInstagram ? null : (

@@ -89,6 +89,7 @@ const LogoingStackScreen = () => (
         headerStyle: { backgroundColor: darkOrange },
         title: 'Copy Caption',
         headerTitleStyle: { color: mostlyWhite, fontSize: 20 },
+        headerLeft: () => null,
       }}
     />
     <LogoingStack.Screen
@@ -98,6 +99,7 @@ const LogoingStackScreen = () => (
         headerStyle: { backgroundColor: darkOrange },
         title: 'Share It',
         headerTitleStyle: { color: mostlyWhite, fontSize: 20 },
+        headerLeft: () => null,
       }}
     />
   </LogoingStack.Navigator>
@@ -139,7 +141,7 @@ const RootStackScreen = () => {
           console.log(asyncStorageError);
           tryAuth();
         }
-      }, 2500);
+      }, 1500);
     };
     const tryAccessToken = async storedAccessToken => {
       try {

@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { TextInput } from '../components';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { eigengrau, crayGray } from '../utils';
 
 export const ProfileCreation = ({ navigation, route }) => {
@@ -36,7 +37,14 @@ export const ProfileCreation = ({ navigation, route }) => {
     <KeyboardAvoidingView
       behavior={Platform.Os === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ paddingBottom: 20, width: 220 }}>
+      <View
+        style={{
+          paddingBottom: 16,
+          width: 220,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Icon name="md-person" size={80} color={crayGray} />
         <Text style={{ fontSize: 20, textAlign: 'center' }}>
           Please enter your Instagram handle to finish signing up!
         </Text>

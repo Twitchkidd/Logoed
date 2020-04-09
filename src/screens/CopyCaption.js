@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { ProfileCreationContext } from '../contexts';
-import { Button, Clipboard, Text } from 'react-native';
+import { Button, Clipboard, Text, View } from 'react-native';
 import { CenteringView } from '../components';
 
 export const CopyCaption = ({ navigation, route }) => {

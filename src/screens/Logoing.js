@@ -68,6 +68,18 @@ export const Logoing = ({ navigation, route }) => {
   const [pendingDrag, setPendingDrag] = useState(true);
   const [pendingSnapShot, setPendingSnapShot] = useState(true);
   const [snapShot, setSnapShot] = useState(null);
+  /*
+    Okay, initially, we're not modalin, no camera permission, waiting on a drag, and we're waiting on a snapshot.
+    First we get permission, and we're modalin.
+    Then we're done modalin and we're waiting on a drag and a snapshot.
+    Then we're either waiting for a drag or a snapshot.
+    In the case of waiting for a drag, we've taken a snapshot.
+    In the case of waiting for a snapshot, we're waiting for a drag.
+    Then we're waiting for an okay?
+    No, in the case of waiting for a drag, then we're waiting for an okay.
+    In the case of waiting for a snapshot, surely the taking of the snapshot with a logo in place is the okay.
+    Sigh ... for the presentation, we're just going to show the drag first flow. This needs to get __done.__
+  */
   const pixelRatio = PixelRatio.get();
   const { width, height } = Dimensions.get('window');
   const camera = useRef();
@@ -79,7 +91,7 @@ export const Logoing = ({ navigation, route }) => {
   const infoBoxZoomInLeft = () => {
     Animated.timing(infoBoxLeftZoomAnim, {
       toValue: 0,
-      duration: 500,
+      duration: 200,
     }).start();
   };
   const infoBoxZoomOutLeft = () => {
@@ -91,7 +103,7 @@ export const Logoing = ({ navigation, route }) => {
   const infoBoxZoomInBottom = () => {
     Animated.timing(infoBoxBottomZoomAnim, {
       toValue: 0,
-      duration: 500,
+      duration: 200,
     }).start();
   };
   const infoBoxZoomOutBottom = () => {
@@ -103,7 +115,7 @@ export const Logoing = ({ navigation, route }) => {
   const infoBoxFadeIn = () => {
     Animated.timing(infoBoxFadeAnim, {
       toValue: 1,
-      duration: 500,
+      duration: 200,
     }).start();
   };
   const infoBoxFadeOut = () => {
@@ -142,8 +154,8 @@ export const Logoing = ({ navigation, route }) => {
       .then(uri => {
         CameraRoll.saveToCameraRoll(uri)
           .then(() => {
-            console.log('camera roll save success!');
             // navigation.push('CopyCaption', { restaurant, viewShot: uri });
+            console.log('ayy');
           })
           .catch(err => console.log(err));
       })
@@ -154,6 +166,12 @@ export const Logoing = ({ navigation, route }) => {
       setModalin(true);
     }
   }, [cameraPermission]);
+  useEffect(() => {
+    console.log(x);
+  }, [x]);
+  useEffect(() => {
+    console.log(y);
+  }, [y]);
   return (
     <View
       style={{
@@ -212,25 +230,33 @@ export const Logoing = ({ navigation, route }) => {
               );
             }}
           </RNCamera>
-          <Draggable
-            x={x}
-            y={y}
-            z={3}
-            onDragRelease={(e, gestureState) => setXY(e, gestureState)}
-            imageSource={restaurant.logo}
-            // renderSize={width / 3}
-            renderSize={60}
-          />
+          {pendingDrag ? (
+            <Draggable
+              x={x}
+              y={y}
+              z={3}
+              onDragRelease={(e, gestureState) => setXY(e, gestureState)}
+              imageSource={restaurant.logo}
+              renderSize={60}
+            />
+          ) : (
+            <Draggable
+              x={x}
+              y={y}
+              z={3}
+              onDragRelease={(e, gestureState) => setXY(e, gestureState)}
+              imageSource={restaurant.logo}
+              renderSize={width / 3}
+            />
+          )}
           <Modal
             isVisible={modalin}
             onBackdropPress={() => setModalin(false)}
             animationInTiming={0}
             animationOutTiming={0}
             backdropOpacity={0.6}
-            onModalWillShow={() => {
-              iconFadeOut();
-            }}
             onModalShow={() => {
+              iconFadeOut();
               infoBoxZoomInBottom();
               infoBoxZoomInLeft();
               infoBoxFadeIn();
@@ -239,8 +265,6 @@ export const Logoing = ({ navigation, route }) => {
               infoBoxZoomOutBottom();
               infoBoxZoomOutLeft();
               infoBoxFadeOut();
-            }}
-            onModalHide={() => {
               iconFadeIn();
             }}
             style={{ alignItems: 'center' }}>
@@ -258,8 +282,23 @@ export const Logoing = ({ navigation, route }) => {
                 marginLeft: infoBoxLeftZoomAnim,
                 opacity: infoBoxFadeAnim,
               }}>
-              <Text style={{ fontSize: 20, color: eigengrau }}>AYY!!</Text>
-              <Button title="Pop modal" onPress={() => setModalin(false)} />
+              <View style={{ width: width - 140, padding: 20 }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: eigengrau,
+                    textAlign: 'center',
+                  }}>
+                  {pendingDrag
+                    ? `Take a picture of your meal at ${
+                        restaurant.name
+                      } and drag the logo into place!`
+                    : `Take a picture of your meal at ${
+                        restaurant.name
+                      } to continue!`}
+                </Text>
+              </View>
+              <Button title="Okay!" onPress={() => setModalin(false)} />
             </Animated.View>
           </Modal>
         </>
@@ -271,89 +310,26 @@ export const Logoing = ({ navigation, route }) => {
               source={{ uri: snapShot }}
               style={{ width: width, height: height }}
             />
-            <Draggable
-              x={x * pixelRatio}
-              y={y * pixelRatio - 72}
+            {/* <Draggable
+              x={x}
+              y={y}
               disabled
               z={3}
-              onDragRelease={(e, gestureState) => setXY(e, gestureState)}
               imageSource={restaurant.logo}
               renderSize={width / 3}
+            /> */}
+            <Image
+              source={restaurant.logo}
+              style={{
+                position: 'absolute',
+                top: y,
+                left: x,
+                width: width / 3,
+                height: width / 3,
+              }}
+              resizeMode="stretch"
             />
-            <Shutter onPress={() => setModalin(true)}>
-              <View />
-            </Shutter>
           </ViewShot>
-          <View
-            style={{
-              flex: 0,
-              flexDirection: 'row',
-              width: width,
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              marginBottom: 40,
-            }}>
-            <View
-              style={{
-                height: 20,
-                width: 20,
-                opacity: 0,
-              }}
-            />
-            <View
-              style={{
-                height: 80,
-                width: 80,
-                opacity: 0,
-              }}
-            />
-            <Animated.View style={{ width: 20, opacity: iconFadeAnim }}>
-              <TouchableOpacity onPress={() => setModalin(true)}>
-                <Icon name="ios-help" size={75} color={darkOrange} />
-              </TouchableOpacity>
-            </Animated.View>
-          </View>
-          <Modal
-            isVisible={modalin}
-            onBackdropPress={() => setModalin(false)}
-            animationInTiming={100}
-            animationOutTiming={100}
-            backdropOpacity={0.6}
-            onModalWillShow={() => {
-              iconFadeOut();
-            }}
-            onModalShow={() => {
-              infoBoxZoomInBottom();
-              infoBoxZoomInLeft();
-              infoBoxFadeIn();
-            }}
-            onModalWillHide={() => {
-              infoBoxZoomOutBottom();
-              infoBoxZoomOutLeft();
-              infoBoxFadeOut();
-            }}
-            onModalHide={() => {
-              iconFadeIn();
-            }}
-            style={{ alignItems: 'center' }}>
-            <Animated.View
-              style={{
-                height: height / 3,
-                width: width - 80,
-                backgroundColor: mostlyWhite,
-                borderRadius: 8,
-                borderWidth: 4,
-                borderColor: lightOrange,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: infoBoxBottomZoomAnim,
-                marginLeft: infoBoxLeftZoomAnim,
-                opacity: infoBoxFadeAnim,
-              }}>
-              <Text style={{ fontSize: 20, color: eigengrau }}>AYY!!</Text>
-              <Button title="Pop modal" onPress={() => setModalin(false)} />
-            </Animated.View>
-          </Modal>
         </View>
       )}
     </View>

@@ -79,7 +79,12 @@ export const BusinessSelection = ({ navigation }) => {
             renderItem={({ item }) => (
               <Business
                 name={item.name}
-                handlePress={name => setBusinessSearch(name)}
+                handlePress={name => {
+                  setBusinessSearch(name);
+                  setTimeout(() => {
+                    businessSelect(name);
+                  }, 200);
+                }}
               />
             )}
             keyExtractor={item => item.name}

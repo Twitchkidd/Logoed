@@ -252,8 +252,8 @@ export const Logoing = ({ navigation, route }) => {
           <Modal
             isVisible={modalin}
             onBackdropPress={() => setModalin(false)}
-            animationInTiming={0}
-            animationOutTiming={0}
+            animationInTiming={100}
+            animationOutTiming={1000}
             backdropOpacity={0.6}
             onModalShow={() => {
               iconFadeOut();
@@ -322,8 +322,12 @@ export const Logoing = ({ navigation, route }) => {
               source={restaurant.logo}
               style={{
                 position: 'absolute',
-                top: y,
-                left: x,
+                // top: (y * 2) / pixelRatio - width / 3 / 2 - 12,
+                // left: x * pixelRatio - width / 3 / 2,
+                // left: 143,
+                // top: 379,
+                top: y - (786 - y) * pixelRatio,
+                left: x - (46 - x) * pixelRatio,
                 width: width / 3,
                 height: width / 3,
               }}
